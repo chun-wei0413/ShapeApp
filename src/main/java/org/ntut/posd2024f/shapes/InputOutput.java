@@ -13,14 +13,10 @@ public class InputOutput {
         try (BufferedReader br = new BufferedReader(new FileReader(inputFileName))) {
             String line;
             while ((line = br.readLine()) != null) {
-                try {
                     Shape shape = constructShape(line);
                     if (shape != null) {
                         shapes.add(shape);
                     }
-                } catch (Exception e) {
-                    System.out.println(e.getMessage());
-                }
             }
         }
         return shapes;
@@ -56,7 +52,7 @@ public class InputOutput {
             case "Triangle":
                 return new Triangle(Double.parseDouble(parts[1]), Double.parseDouble(parts[2]), Double.parseDouble(parts[3]));
             default:
-                throw new Exception("It's not a shape that i can construct!");
+                return null;
         }
     }
 }
