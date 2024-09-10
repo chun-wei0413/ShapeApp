@@ -10,4 +10,36 @@ import org.junit.rules.ExpectedException;
 
 public class TriangleTest {
     // Triangle t = new Triangle(...)
+
+    @Test
+    public void test_Valid_Triangle() throws Exception {
+        Triangle triangle = new Triangle(3, 4, 5);
+        assertEquals(6, triangle.area(), 0);
+        assertEquals(12, triangle.perimeter(), 0);
+    }
+
+    @Test(expected = Exception.class)
+    public void test_Invalid_Triangle() throws Exception {
+        new Triangle(3, 5, 9);
+    }
+
+    @Test
+    public void test_Triangle_Area() throws Exception {
+        Triangle triangle = new Triangle(7, 8, 9);
+        assertEquals(26.832, triangle.area(), 0.001);
+    }
+
+
+    @Test
+    public void test_Triangle_Perimeter() throws Exception {
+        Triangle triangle = new Triangle(7, 8, 9);
+        assertEquals(24, triangle.perimeter(), 0);
+    }
+
+
+    @Test
+    public void test_ToString() throws Exception {
+        Triangle triangle = new Triangle(7, 8, 9);
+        assertEquals("Triangle 7.0 8.0 9.0", triangle.toString());
+    }
 }
