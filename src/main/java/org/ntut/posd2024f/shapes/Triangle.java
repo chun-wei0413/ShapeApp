@@ -17,16 +17,29 @@ public class Triangle implements Shape
         this.c = c;
     }
 
+    @Override
     public double perimeter() {
         return a + b + c;
     }
 
+    @Override
     public double area() {
         double s = perimeter()/2;
         return Math.sqrt(s*(s-a)*(s-b)*(s-c));
     }
 
+    @Override
     public String toString() {
         return "Triangle "+ a + " " + b + " " +c;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Triangle triangle = (Triangle) o;
+        return Double.compare(triangle.a, a) == 0 &&
+            Double.compare(triangle.b, b) == 0 &&
+            Double.compare(triangle.c, c) == 0;
     }
 }

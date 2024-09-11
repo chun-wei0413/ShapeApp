@@ -12,15 +12,27 @@ public class Rectangle implements Shape {
         this.width = width;    
     }
 
+    @Override
 	public double area() {
         return length * width;
     }
     
+    @Override
     public double perimeter() {
         return (length + width) * 2;
     }
 
+    @Override
     public String toString() {
         return "Rectangle " + length + " " + width;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Rectangle rectangle = (Rectangle) o;
+        return Double.compare(rectangle.length, length) == 0 &&
+            Double.compare(rectangle.width, width) == 0;
     }
 }

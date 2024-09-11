@@ -11,15 +11,26 @@ public class Circle implements Shape {
         this.radius = radius;
     }
 
+    @Override
     public double area() {
         return radius * radius * Math.PI;
     } 
 
+    @Override
     public double perimeter() {
         return 2 * radius * Math.PI;
     }
 
+    @Override
     public String toString() {
         return "Circle " + radius;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Circle circle = (Circle) o;
+        return Double.compare(circle.radius, radius) == 0;
     }
 }

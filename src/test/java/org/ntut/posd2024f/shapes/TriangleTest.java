@@ -42,4 +42,18 @@ public class TriangleTest {
         Triangle triangle = new Triangle(7, 8, 9);
         assertEquals("Triangle 7.0 8.0 9.0", triangle.toString());
     }
+
+    @Test
+    public void test_equals_same_class_with_same_values() throws Exception{
+        Triangle triangle1 = new Triangle(3,4,5);
+        Triangle triangle2 = new Triangle(3,4,5);
+        assertTrue(triangle1.equals(triangle2));
+    }
+
+    @Test
+    public void test_equals_different_class_comparison() throws Exception{
+        Triangle triangle = new Triangle(3, 4, 5);
+        Circle circle = new Circle(5);
+        assertFalse(triangle.equals(circle));
+    }
 }
