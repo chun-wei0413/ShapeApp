@@ -23,16 +23,31 @@ public class InputOutput {
     }
 
     public ArrayList<Shape> handleSort(ArrayList<Shape> shapes, String compare, String order) {
-        boolean flag = false;
+        boolean conditonHandler = false;
+        boolean orderHandler = false;
         Comparator<Shape> comparator = null;
         if (compare.equals("area")) {
-            comparator = order.equals("inc") ? Sort.BY_AREA_ASCENDING : Sort.BY_AREA_DESCENDING;
-            flag = true;
+            if(order.equals("inc")){
+                comparator = Sort.BY_AREA_ASCENDING;
+                orderHandler =true;
+            }
+            else if(order.equals("dec")){
+                comparator = Sort.BY_AREA_DESCENDING;
+                orderHandler =true;
+            }
+            conditonHandler = true;
         } else if (compare.equals("perimeter")) {
-            comparator = order.equals("inc") ? Sort.BY_PERIMETER_ASCENDING : Sort.BY_PERIMETER_DESCENDING;
-            flag = true;
+            if(order.equals("inc")){
+                comparator = Sort.BY_PERIMETER_ASCENDING;
+                orderHandler =true;
+            }
+            else if(order.equals("dec")){
+                comparator = Sort.BY_PERIMETER_DESCENDING;
+                orderHandler =true;
+            }
+            conditonHandler = true;
         }
-        if(flag){
+        if(conditonHandler && orderHandler){
             shapes.sort(comparator);
         }
         return shapes;
