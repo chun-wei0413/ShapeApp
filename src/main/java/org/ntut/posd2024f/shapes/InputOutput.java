@@ -23,13 +23,18 @@ public class InputOutput {
     }
 
     public ArrayList<Shape> handleSort(ArrayList<Shape> shapes, String compare, String order) {
+        boolean flag = false;
         Comparator<Shape> comparator = null;
         if (compare.equals("area")) {
             comparator = order.equals("inc") ? Sort.BY_AREA_ASCENDING : Sort.BY_AREA_DESCENDING;
+            flag = true;
         } else if (compare.equals("perimeter")) {
             comparator = order.equals("inc") ? Sort.BY_PERIMETER_ASCENDING : Sort.BY_PERIMETER_DESCENDING;
+            flag = true;
         }
-        shapes.sort(comparator);
+        if(flag){
+            shapes.sort(comparator);
+        }
         return shapes;
     }
 
