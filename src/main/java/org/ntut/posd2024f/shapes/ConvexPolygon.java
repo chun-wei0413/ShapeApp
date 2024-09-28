@@ -2,10 +2,10 @@ package org.ntut.posd2024f.shapes;
 
 import java.util.List;
 
-public class ConvexPolygon implements Shape{
+public class ConvexPolygon implements Shape {
     private List<TwoDimensionalVector> vectors;
 
-    public ConvexPolygon(List<TwoDimensionalVector> vectors) {
+    public ConvexPolygon(List<TwoDimensionalVector> vectors) throws ShapeException {
         if(!isConvexPolygonValid(vectors)){
             throw new ShapeException("It's not a convex polygon!");
         }

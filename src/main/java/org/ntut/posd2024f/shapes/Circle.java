@@ -4,7 +4,7 @@ public class Circle implements Shape {
     
     private double radius;
 
-    public Circle(double radius) throws Exception {
+    public Circle(double radius) throws ShapeException {
         if(radius<=0){
             throw new ShapeException("It's not a circle!");
         }
