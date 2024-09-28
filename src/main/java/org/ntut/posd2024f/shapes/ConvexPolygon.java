@@ -18,35 +18,32 @@ public class ConvexPolygon implements Shape {
     public boolean isConvexPolygonValid(List<TwoDimensionalVector> vectors) {
         int n = vectors.size();
         if (n < 3) return false;
-    
-        boolean isPositive = true;
-        boolean firstIteration = true;
-        
+
+        boolean isPositive = false;
+        boolean isNegative = false;
+
         for (int i = 0; i < n; i++) {
             TwoDimensionalVector current = vectors.get(i);
             TwoDimensionalVector next = vectors.get((i + 1) % n);
             TwoDimensionalVector nextNext = vectors.get((i + 2) % n);
-            
+
             TwoDimensionalVector edge1 = next.subtract(current);
             TwoDimensionalVector edge2 = nextNext.subtract(next);
-            
+
             double crossProduct = edge1.cross(edge2);
-            
-            if (firstIteration) {
-                isPositive = crossProduct > 0;
-                firstIteration = false;
-            } else {
-                if ((crossProduct > 0) != isPositive) {
-                    return false;
-                }
+
+            if (crossProduct > 0) {
+                isPositive = true;
+            } else if (crossProduct < 0) {
+                isNegative = true;
             }
-            
-            // 檢查是否有重疊的點
-            if (edge1.length() == 0) {
+
+            // 如果同時出現了正負叉積，則不是凸多邊形
+            if (isPositive && isNegative) {
                 return false;
             }
         }
-        
+
         return true;
     }
     
