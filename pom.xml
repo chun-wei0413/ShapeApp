@@ -58,23 +58,6 @@
                 <artifactId>jacoco-maven-plugin</artifactId>
                 <version>0.8.1</version>
             </plugin>
-
-                <!--added bt Frank-->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jar-plugin</artifactId>
-                <version>3.2.0</version>
-                <!--[> 配置主要資訊清單 <]-->
-                <configuration>
-                    <archive>
-                    <manifest>
-                        <addClasspath>true</addClasspath>
-                        <!-- 指定主要的 class-->
-                        <mainClass>org.ntut.posd2024f.shapes.Geo</mainClass>
-                    </manifest>
-                    </archive>
-                </configuration>
-            </plugin>
         </plugins>
     </build>
     <reporting>

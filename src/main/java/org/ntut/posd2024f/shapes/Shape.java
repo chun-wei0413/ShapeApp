@@ -1,9 +1,14 @@
 package org.ntut.posd2024f.shapes;
 
+import java.util.Iterator;
+
 public interface Shape {
     public double area();
     public double perimeter();
-    public String toString();
-    //this method was overridden for my ArrayList assertion
-    public boolean equals(Object o);
+    public default void add(Shape shape) {
+        throw new ShapeException("Illegal Operation");
+    }
+    public default Iterator<Shape> iterator() {
+        return new NullIterator();
+    }
 }

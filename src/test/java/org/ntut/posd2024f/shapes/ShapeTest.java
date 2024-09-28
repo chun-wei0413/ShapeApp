@@ -3,6 +3,8 @@ package org.ntut.posd2024f.shapes;
 import static org.junit.Assert.*;
 
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.NoSuchElementException;
 import java.lang.Math;
 import org.junit.Rule;
 import org.junit.Test;
@@ -23,16 +25,19 @@ public class ShapeTest {
         assertEquals((10+12)*2, rectangle.perimeter(), 0.001); 
     }
 
-    @Test
-    public void test_shape_toString() throws Exception{
-        Shape triangle = new Triangle(5, 12, 13);
-        assertEquals("Triangle 5.0 12.0 13.0", triangle.toString());
+    @Test(expected = ShapeException.class)
+    public void test_shape_add() throws Exception{
+        Shape circle = new Circle(10);
+        Shape rectangle = new Rectangle(4, 5);
+        circle.add(rectangle);
     }
 
-    @Test
-    public void test_shape_equals() throws Exception{
+    @Test(expected = NoSuchElementException.class)
+    public void test_shape_iterator() throws Exception{
         Shape circle = new Circle(7);
-        Shape triangle = new Triangle(5, 12, 13);
-        assertFalse(circle.equals(triangle));
+        Iterator<Shape> circleIterator = circle.iterator();
+        
+        assertFalse(circleIterator.hasNext());
+        circleIterator.next();
     }
 }
