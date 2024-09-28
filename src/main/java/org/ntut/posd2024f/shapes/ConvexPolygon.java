@@ -19,30 +19,35 @@ public class ConvexPolygon implements Shape {
         int n = vectors.size();
         if (n < 3) return false;
     
-        boolean isConvex = true;
+        boolean isPositive = true;
+        boolean firstIteration = true;
         
         for (int i = 0; i < n; i++) {
             TwoDimensionalVector current = vectors.get(i);
             TwoDimensionalVector next = vectors.get((i + 1) % n);
             TwoDimensionalVector nextNext = vectors.get((i + 2) % n);
             
-            // 向量相減得到邊
-            TwoDimensionalVector vector1 = next.subtract(current);
-            TwoDimensionalVector vector2 = nextNext.subtract(next);
+            TwoDimensionalVector edge1 = next.subtract(current);
+            TwoDimensionalVector edge2 = nextNext.subtract(next);
             
-            // 計算兩個向量的夾角餘弦值
-            double dotProduct = vector1.dot(vector2);
-            double magnitudes = vector1.length() * vector2.length();
-            double cosTheta = dotProduct / magnitudes;
-
-            // 如果夾角大於 180 度，cosTheta 會是負數
-            if (cosTheta < 0) {
-                isConvex = false;
-                break;
+            double crossProduct = edge1.cross(edge2);
+            
+            if (firstIteration) {
+                isPositive = crossProduct > 0;
+                firstIteration = false;
+            } else {
+                if ((crossProduct > 0) != isPositive) {
+                    return false;
+                }
+            }
+            
+            // 檢查是否有重疊的點
+            if (edge1.length() == 0) {
+                return false;
             }
         }
-    
-        return isConvex;
+        
+        return true;
     }
     
 
