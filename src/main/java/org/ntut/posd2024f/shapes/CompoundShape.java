@@ -5,10 +5,10 @@ import java.util.Iterator;
 import java.util.List;
 
 public class CompoundShape implements Shape {
-    private List<Shape> shapes = new ArrayList<>();
+    private List<Shape> shapes;
 
     public CompoundShape() {
-        this.shapes = shapes;
+        this.shapes = new ArrayList<>();
     }
     
     @Override
