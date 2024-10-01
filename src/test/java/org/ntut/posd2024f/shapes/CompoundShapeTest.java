@@ -13,7 +13,8 @@ public class CompoundShapeTest {
     
     @Test
     public void test_compoundShape(){
-        new CompoundShape();
+        CompoundShape compoundShape = new CompoundShape();
+        assertEquals(0, compoundShape.size());
     }
 
     @Test
@@ -41,7 +42,7 @@ public class CompoundShapeTest {
         compoundShape.add(new Circle(5));
         compoundShape.add(new Circle(3));
         
-        assertEquals(3, compoundShape.size()); 
+        assertEquals(3, compoundShape.size());
     }
 
     @Test
@@ -54,5 +55,9 @@ public class CompoundShapeTest {
         Iterator<Shape> iteratorShape = compoundShape.iterator();
         assertTrue(iteratorShape.hasNext());
         assertEquals(iteratorShape.next().getClass(), Rectangle.class);
+        assertTrue(iteratorShape.hasNext());
+        assertEquals(iteratorShape.next().getClass(), Circle.class);
+        assertTrue(iteratorShape.hasNext());
+        assertEquals(iteratorShape.next().getClass(), Circle.class);
     }
 }

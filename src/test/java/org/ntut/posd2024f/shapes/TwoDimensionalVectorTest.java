@@ -14,6 +14,18 @@ public class TwoDimensionalVectorTest {
     }
 
     @Test
+    public void test_twoDimensionalVector_getX(){
+        TwoDimensionalVector twoD = new TwoDimensionalVector(4.0, 5.0);
+        assertEquals(4.0, twoD.getX(), 0.001);
+    }
+
+    @Test
+    public void test_twoDimensionalVector_getY(){
+        TwoDimensionalVector twoD = new TwoDimensionalVector(4.0, 5.0);
+        assertEquals(5.0, twoD.getY(), 0.001);
+    }
+
+    @Test
     public void test_twoDimensionalVector_length(){
         TwoDimensionalVector twoD = new TwoDimensionalVector(3.0, 5.0);
         assertEquals(5.830, twoD.length(), 0.001);
