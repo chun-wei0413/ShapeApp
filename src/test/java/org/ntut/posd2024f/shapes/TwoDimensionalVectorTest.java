@@ -61,6 +61,6 @@ public class TwoDimensionalVectorTest {
     public void test_TwoDimensionalVector_toString(){
         TwoDimensionalVector twoDA = new TwoDimensionalVector(9, 10);
         
-        assertEquals("[9.0, 10.0]", twoDA.toString());
+        assertEquals("[9, 10]", twoDA.toString());
     }
 }
