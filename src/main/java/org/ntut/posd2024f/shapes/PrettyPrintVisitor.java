@@ -7,22 +7,22 @@ public class PrettyPrintVisitor implements Visitor<String> {
 
     @Override
     public void visitCircle(Circle circle) {
-        sb.append("Circle ").append(circle.getRadius()).append("\n");
+        sb.append("Circle ").append(circle.getRadius());
     }
 
     @Override
     public void visitRectangle(Rectangle rectangle) {
-        sb.append("Rectangle ").append(rectangle.getLength()).append(" ").append(rectangle.getWidth()).append("\n");
+        sb.append("Rectangle ").append(rectangle.getLength()).append(" ").append(rectangle.getWidth());
     }
 
     @Override
     public void visitTriangle(Triangle triangle) {
-        sb.append("Triangle ").append(triangle.getVectors().toString()).append("\n");
+        sb.append("Triangle ").append(triangle.getVectors());
     }
 
     @Override
     public void visitConvexPolygon(ConvexPolygon convexPolygon) {
-        sb.append("ConvexPolygon ").append(convexPolygon.getVectors().toString()).append("\n");
+        sb.append("ConvexPolygon ").append(convexPolygon.getVectors());
     }
 
     @Override
@@ -35,23 +35,27 @@ public class PrettyPrintVisitor implements Visitor<String> {
             shape.accept(this);
         }
 
-        sb.append("}").append("\n");
+        sb.append("}");
     }
 
     @Override
     public void visitTextedShape(TextedShape textedShape) {
         //ex. Circle 1.0, text: Hello
-        Iterator<Shape> shapes = textedShape.getShape().iterator();
-        while(shapes.hasNext()){
-            shapes.next().accept(this);
+        if(textedShape.getShape().getClass() == CompoundShape.class){
+            Iterator<Shape> shapes = textedShape.getShape().iterator();
+            while(shapes.hasNext()){
+                shapes.next().accept(this);
+            }
+            sb.append(", text: ").append(textedShape.getText());
+        } else{
+            textedShape.accept(this);
+            sb.append(", text: ").append(textedShape.getText());
         }
-        sb.append(", text: ").append(textedShape.getText()).append("\n");
     }
 
     @Override
     public void visitColoredShape(ColoredShape coloredShape) {
         String color = coloredShape.getColor();
-        String shape = coloredShape.getShape().toString();
         String colorCode = "";
         switch (color) {
             case "Red":
@@ -64,12 +68,17 @@ public class PrettyPrintVisitor implements Visitor<String> {
                 colorCode = "\033[0;34m";
                 break;
         }
-        sb.append("ColoredShape: ").append(colorCode);
+        sb.append(colorCode);
 
-        Iterator<Shape> shapes = coloredShape.getShape().iterator();
-        while(shapes.hasNext()){
-            shapes.next().accept(this);
+        if(coloredShape.getShape().getClass() == CompoundShape.class){
+            Iterator<Shape> shapes = coloredShape.getShape().iterator();
+            while(shapes.hasNext()){
+                shapes.next().accept(this);
+            }
+        } else {
+            coloredShape.getShape().accept(this);
         }
+
         sb.append("\033[0m");
     }
 
