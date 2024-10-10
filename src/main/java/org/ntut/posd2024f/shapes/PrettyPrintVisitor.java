@@ -48,6 +48,7 @@ public class PrettyPrintVisitor implements Visitor<String> {
         if(compoundShapes.hasNext()){
             sb.append("\n");
             while (compoundShapes.hasNext()) {
+                sb.append("  ");
                 Shape shape = compoundShapes.next();
                 shape.accept(this);
                 sb.append("\n");
