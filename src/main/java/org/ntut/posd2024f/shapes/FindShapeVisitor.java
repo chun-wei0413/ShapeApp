@@ -1,6 +1,7 @@
 package org.ntut.posd2024f.shapes;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.function.Predicate;
 
@@ -45,6 +46,11 @@ public class FindShapeVisitor implements Visitor<List<Shape>> {
         if(condition.test(compoundShape)){
             result.add(compoundShape);
         }
+
+        Iterator<Shape> compoundShapes = compoundShape.iterator();
+        while(compoundShapes.hasNext()) {
+            compoundShapes.next().accept(this);  // 遞迴訪問內部形狀
+        }
     }
 
     @Override
@@ -52,6 +58,8 @@ public class FindShapeVisitor implements Visitor<List<Shape>> {
         if(condition.test(textedShape)){
             result.add(textedShape);
         }
+
+        textedShape.getShape().accept(this);
     }
 
     @Override
@@ -59,6 +67,8 @@ public class FindShapeVisitor implements Visitor<List<Shape>> {
         if(condition.test(coloredShape)){
             result.add(coloredShape);
         }
+
+        coloredShape.getShape().accept(this);
     }
 
     public List<Shape> getResult() {
