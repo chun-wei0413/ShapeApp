@@ -4,6 +4,7 @@ import java.util.Iterator;
 
 public class PrettyPrintVisitor implements Visitor<String> {
     private StringBuilder sb = new StringBuilder();
+    private int indentLevel = 0;
 
     @Override
     public void visitCircle(Circle circle) {
@@ -42,18 +43,22 @@ public class PrettyPrintVisitor implements Visitor<String> {
 
     @Override
     public void visitCompoundShape(CompoundShape compoundShape) {
+        indent();
         sb.append("CompoundShape {");
+        indentLevel++;
         Iterator<Shape> compoundShapes = compoundShape.iterator();
 
         if(compoundShapes.hasNext()){
             sb.append("\n");
             while (compoundShapes.hasNext()) {
-                sb.append("  ");
                 Shape shape = compoundShapes.next();
                 shape.accept(this);
                 sb.append("\n");
             }
         }
+
+        indentLevel--;
+        indent();
         sb.append("}");
     }
 
@@ -88,5 +93,11 @@ public class PrettyPrintVisitor implements Visitor<String> {
     @Override
     public String getResult() {
         return sb.toString();
+    }
+
+    public void indent(){
+        for(int i=0 ; i < indentLevel; i++){
+            sb.append("  ");
+        }
     }
 }
