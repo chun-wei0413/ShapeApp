@@ -3,8 +3,13 @@ package org.ntut.posd2024f.shapes;
 import java.util.Iterator;
 
 public class PrettyPrintVisitor implements Visitor<String> {
-    private StringBuilder sb = new StringBuilder();
-    private int indentLevel = 0;
+    private StringBuilder sb;
+    private int indentLevel;
+
+    public PrettyPrintVisitor(){
+        this.sb = new StringBuilder();
+        this.indentLevel = 0;
+    }
 
     @Override
     public void visitCircle(Circle circle) {
