@@ -43,7 +43,6 @@ public class PrettyPrintVisitor implements Visitor<String> {
 
     @Override
     public void visitCompoundShape(CompoundShape compoundShape) {
-        indent();
         sb.append("CompoundShape {");
         indentLevel++;
         Iterator<Shape> compoundShapes = compoundShape.iterator();
@@ -51,6 +50,7 @@ public class PrettyPrintVisitor implements Visitor<String> {
         if(compoundShapes.hasNext()){
             sb.append("\n");
             while (compoundShapes.hasNext()) {
+                indent();
                 Shape shape = compoundShapes.next();
                 shape.accept(this);
                 sb.append("\n");
