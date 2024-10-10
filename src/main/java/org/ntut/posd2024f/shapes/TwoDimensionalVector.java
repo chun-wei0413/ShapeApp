@@ -39,6 +39,6 @@ public class TwoDimensionalVector {
 
     @Override
     public String toString() {
-        return "[" + (int)x + ", " + (int)y + "]";
+        return "[" + (int)x + "," + (int)y + "]";
     }
 }
