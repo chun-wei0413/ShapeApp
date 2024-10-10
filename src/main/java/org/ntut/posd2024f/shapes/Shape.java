@@ -8,7 +8,10 @@ public interface Shape {
     public default void add(Shape shape) {
         throw new ShapeException("Illegal Operation");
     }
+    
     public default Iterator<Shape> iterator() {
         return new NullIterator();
     }
+
+    public <T> void accept(Visitor<T> visitor);
 }

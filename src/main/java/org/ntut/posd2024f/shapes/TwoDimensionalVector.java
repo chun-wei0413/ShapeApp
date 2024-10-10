@@ -36,4 +36,9 @@ public class TwoDimensionalVector {
     public TwoDimensionalVector subtract(TwoDimensionalVector other) {
         return new TwoDimensionalVector(this.x - other.x, this.y - other.y);
     }
+
+    @Override
+    public String toString() {
+        return "[" + x + ", " + y + "]";
+    }
 }

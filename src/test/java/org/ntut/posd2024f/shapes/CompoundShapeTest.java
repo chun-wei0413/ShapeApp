@@ -1,13 +1,15 @@
 package org.ntut.posd2024f.shapes;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class CompoundShapeTest {
     
@@ -54,10 +56,11 @@ public class CompoundShapeTest {
 
         Iterator<Shape> iteratorShape = compoundShape.iterator();
         assertTrue(iteratorShape.hasNext());
-        assertEquals(iteratorShape.next().getClass(), Rectangle.class);
+        assertEquals(Rectangle.class, iteratorShape.next().getClass());
         assertTrue(iteratorShape.hasNext());
-        assertEquals(iteratorShape.next().getClass(), Circle.class);
+        assertEquals(Circle.class, iteratorShape.next().getClass());
         assertTrue(iteratorShape.hasNext());
-        assertEquals(iteratorShape.next().getClass(), Circle.class);
+        assertEquals(Circle.class, iteratorShape.next().getClass());
+        assertFalse(iteratorShape.hasNext());
     }
 }

@@ -51,4 +51,14 @@ public class Triangle implements Shape
         double c = vectors.get(0).subtract(vectors.get(2)).length();
         return Math.sqrt(s*(s-a)*(s-b)*(s-c));
     }
+
+    @Override
+    public <T> void accept(Visitor<T> visitor) {
+        visitor.visitTriangle(this);
+    }
+
+    //ex. Triangle [0,0] [1,0] [0,1]
+    public List<TwoDimensionalVector> getVectors() {
+        return vectors;
+    }
 }

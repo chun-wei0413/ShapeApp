@@ -1,21 +1,24 @@
 package org.ntut.posd2024f.shapes;
 
-import static org.junit.Assert.assertFalse;
+
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.NoSuchElementException;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+
 
 public class NullIteratorTest {
     @Test
-    public void test_nullIterator_hasNext() throws Exception {
+    public void test_nullIterator_hasNext() {
         NullIterator nullIterator = new NullIterator();
         assertFalse(nullIterator.hasNext());
     }
 
-    @Test(expected = NoSuchElementException.class)
-    public void test_nullIterator_next() throws Exception {
+    @Test
+    public void test_nullIterator_next() {
         NullIterator nullIterator = new NullIterator();
-        nullIterator.next();
+        assertThrows(NoSuchElementException.class, () -> nullIterator.next());
     }
 }

@@ -21,4 +21,24 @@ public class Rectangle implements Shape {
     public double perimeter() {
         return (length + width) * 2;
     }
+
+    @Override
+    public <T> void accept(Visitor<T> visitor) {
+        visitor.visitRectangle(this);
+    }
+
+    public boolean equals(Object o){
+        if(this == o) return true;
+        if(o == null || this.getClass() != o.getClass()) return false;
+        Rectangle rec = (Rectangle) o;
+        return Double.compare(this.length, rec.length) == 0 && Double.compare(this.width, rec.width) == 0;
+    }
+
+    public double getLength() {
+        return length;
+    }
+
+    public double getWidth() {
+        return width;
+    }
 }

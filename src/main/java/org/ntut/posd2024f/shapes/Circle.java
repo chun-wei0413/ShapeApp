@@ -20,4 +20,20 @@ public class Circle implements Shape {
     public double perimeter() {
         return 2 * radius * Math.PI;
     }
+
+    @Override
+    public <T> void accept(Visitor<T> visitor) {
+        visitor.visitCircle(this);
+    }
+
+    public boolean equals(Object o){
+        if(this == o) return true;
+        if(o == null || this.getClass() != o.getClass()) return false;
+        Circle c = (Circle) o;
+        return Double.compare(this.getRadius(), c.getRadius()) == 0;
+    }
+
+    public double getRadius() {
+        return radius;
+    }
 }

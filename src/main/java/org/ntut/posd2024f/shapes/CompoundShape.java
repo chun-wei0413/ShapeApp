@@ -43,6 +43,11 @@ public class CompoundShape implements Shape {
         return shapes.iterator();
     }
 
+    @Override
+    public <T> void accept(Visitor<T> visitor) {
+        visitor.visitCompoundShape(this);
+    }
+
     public int size(){
         return shapes.size();
     }

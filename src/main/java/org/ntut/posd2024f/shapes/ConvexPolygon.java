@@ -12,9 +12,6 @@ public class ConvexPolygon implements Shape {
             this.vectors = vectors;
     }
 
-    /*The vectors which used to create the ConvexPolygon need to be sorted in the 
-    clockwise direction or counterclockwise direction, the unsorted vectors are 
-    unavailable and needs to throw the ShapeException.*/
     public boolean isConvexPolygonValid(List<TwoDimensionalVector> vectors) {
         int n = vectors.size();
         if (n < 3) return false;
@@ -72,5 +69,14 @@ public class ConvexPolygon implements Shape {
         }
 
         return perimeter;
+    }
+
+    @Override
+    public <T> void accept(Visitor<T> visitor) {
+        visitor.visitConvexPolygon(this);
+    }
+
+    public List<TwoDimensionalVector> getVectors() {
+        return vectors;
     }
 }
