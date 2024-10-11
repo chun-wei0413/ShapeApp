@@ -80,7 +80,7 @@ public class PrettyPrintVisitorTest {
         coloredShape.accept(visitor);
 
         // 因為控制台顏色代碼無法顯示，測試不檢查顏色代碼，只檢查形狀輸出
-        String expectedOutput = "\033[0;31mCircle 2.0\033[0m";
+        String expectedOutput = "\\033[0;31mCircle 2.0\\033[0m";
         assertEquals(expectedOutput, visitor.getResult());
     }
 
