@@ -80,19 +80,19 @@ public class PrettyPrintVisitor implements Visitor<String> {
         String colorCode = "";
         switch (color) {
             case "RED":
-                colorCode = "\\033[0;31m";
+                colorCode = "\033[0;31m";
                 break;
             case "GREEN":
-                colorCode = "\\033[0;32m";
+                colorCode = "\033[0;32m";
                 break;
             case "BLUE":
-                colorCode = "\\033[0;34m";
+                colorCode = "\033[0;34m";
                 break;
         }
         sb.append(colorCode);
 
         coloredShape.getShape().accept(this);
-        sb.append("\\033[0m");
+        sb.append("\033[0m");
     }
 
     @Override
