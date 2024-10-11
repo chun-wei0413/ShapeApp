@@ -79,13 +79,13 @@ public class PrettyPrintVisitor implements Visitor<String> {
         String color = coloredShape.getColor();
         String colorCode = "";
         switch (color) {
-            case "Red":
+            case "RED":
                 colorCode = "\\033[0;31m";
                 break;
-            case "Green":
+            case "GREEN":
                 colorCode = "\\033[0;32m";
                 break;
-            case "Blue":
+            case "BLUE":
                 colorCode = "\\033[0;34m";
                 break;
         }

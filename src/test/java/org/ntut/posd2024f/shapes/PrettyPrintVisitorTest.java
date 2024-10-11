@@ -74,7 +74,7 @@ public class PrettyPrintVisitorTest {
     @Test
     public void testVisitColoredShape() {
         Circle circle = new Circle(2.0);
-        ColoredShape coloredShape = new ColoredShape(circle, "Red");
+        ColoredShape coloredShape = new ColoredShape(circle, "RED");
 
         PrettyPrintVisitor visitor = new PrettyPrintVisitor();
         coloredShape.accept(visitor);
