@@ -92,7 +92,7 @@ public class PrettyPrintVisitor implements Visitor<String> {
         sb.append(colorCode);
 
         coloredShape.getShape().accept(this);
-        sb.append("\033[0m");
+        sb.append("\\033[0m");
     }
 
     @Override
