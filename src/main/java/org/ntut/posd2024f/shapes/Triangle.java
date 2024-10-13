@@ -9,7 +9,7 @@ public class Triangle implements Shape
 {
     private List<TwoDimensionalVector> vectors;
     
-    public Triangle(List<TwoDimensionalVector> vectors) throws ShapeException {
+    public Triangle(List<TwoDimensionalVector> vectors) {
         if(!isTriangleValid(vectors)){
             throw new ShapeException("It's not a triangle!");
         }

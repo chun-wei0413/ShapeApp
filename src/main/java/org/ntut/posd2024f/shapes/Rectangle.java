@@ -4,7 +4,7 @@ public class Rectangle implements Shape {
     private double length;
     private double width;
 
-    public Rectangle(double length, double width) throws ShapeException {
+    public Rectangle(double length, double width) {
         if(length <= 0 || width <=0){
             throw new ShapeException("It's not a rectangle!");
         }

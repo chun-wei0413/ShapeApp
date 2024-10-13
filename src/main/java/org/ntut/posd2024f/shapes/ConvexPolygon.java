@@ -5,7 +5,7 @@ import java.util.List;
 public class ConvexPolygon implements Shape {
     private List<TwoDimensionalVector> vectors;
 
-    public ConvexPolygon(List<TwoDimensionalVector> vectors) throws ShapeException {
+    public ConvexPolygon(List<TwoDimensionalVector> vectors) {
         if(!isConvexPolygonValid(vectors)){
             throw new ShapeException("It's not a convex polygon!");
         }

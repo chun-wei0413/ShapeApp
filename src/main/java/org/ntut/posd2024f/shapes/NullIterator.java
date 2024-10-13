@@ -10,7 +10,7 @@ public class NullIterator implements Iterator<Shape>{
     }
 
     @Override
-    public Shape next(){
+    public Shape next() {
         throw new NoSuchElementException("Null iterator does not point to any element");
     }
 }

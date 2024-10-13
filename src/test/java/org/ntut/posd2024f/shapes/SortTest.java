@@ -3,7 +3,6 @@ package org.ntut.posd2024f.shapes;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
@@ -11,7 +10,7 @@ import org.junit.jupiter.api.Test;
 public class SortTest {
     
     @Test
-    public void test_area_ascending() throws Exception {
+    public void test_area_ascending() {
         ArrayList<Shape> shapes = new ArrayList<>();
         ArrayList<Double> expectedArea = new ArrayList<>();
 
@@ -39,7 +38,7 @@ public class SortTest {
     }
 
     @Test
-    public void test_area_descending() throws Exception {
+    public void test_area_descending() {
         ArrayList<Shape> shapes = new ArrayList<>();
         ArrayList<Double> expectedArea = new ArrayList<>();
 
@@ -67,7 +66,7 @@ public class SortTest {
     }
 
     @Test
-    public void test_perimeter_ascending() throws Exception {
+    public void test_perimeter_ascending() {
         ArrayList<Shape> shapes = new ArrayList<>();
         ArrayList<Double> expectedArea = new ArrayList<>();
 
@@ -95,7 +94,7 @@ public class SortTest {
     }
 
     @Test
-    public void test_perimeter_descending() throws Exception {
+    public void test_perimeter_descending() {
         ArrayList<Shape> shapes = new ArrayList<>();
         ArrayList<Double> expectedArea = new ArrayList<>();
 

@@ -11,19 +11,19 @@ import org.junit.jupiter.api.Test;
 public class TextedShapeTest {
 
     @Test
-    public void test_TextedShape_area(){
+    public void test_TextedShape_area() {
         TextedShape textedShape = new TextedShape(new Rectangle(3, 4), "test");
         assertEquals(12, textedShape.area(), 0);
     }
 
     @Test
-    public void test_TextedShape_perimeter(){
+    public void test_TextedShape_perimeter() {
         TextedShape textedShape = new TextedShape(new Rectangle(3, 4), "test");
         assertEquals(14, textedShape.perimeter(), 0);
     }
 
     @Test
-    public void test_TextedShape_add(){
+    public void test_TextedShape_add() {
         CompoundShape compoundShape = new CompoundShape();
         compoundShape.add(new Rectangle(3, 4));
         ColoredShape coloredShape = new ColoredShape(compoundShape, "test");
@@ -33,7 +33,7 @@ public class TextedShapeTest {
     }
 
     @Test
-    public void test_TextedShape_iterator(){
+    public void test_TextedShape_iterator() {
         Shape compoundShape = new CompoundShape();
         compoundShape.add(new Rectangle(3, 4));
         compoundShape.add(new Circle(3));
@@ -47,13 +47,13 @@ public class TextedShapeTest {
     }
 
     @Test
-    public void test_TextedShape_getText(){
+    public void test_TextedShape_getText() {
         TextedShape textedShape = new TextedShape(new Rectangle(3, 4), "test");
         assertEquals("test", textedShape.getText());
     }
 
     @Test
-    public void test_TextedShape_getShape(){
+    public void test_TextedShape_getShape() {
         TextedShape textedShape = new TextedShape(new Rectangle(3, 4), "test");
         assertEquals(new Rectangle(3, 4), textedShape.getShape());
     }

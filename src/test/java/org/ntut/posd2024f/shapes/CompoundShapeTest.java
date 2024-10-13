@@ -20,7 +20,7 @@ public class CompoundShapeTest {
     }
 
     @Test
-    public void test_compoundShape_area() throws Exception {
+    public void test_compoundShape_area() {
         CompoundShape compoundShape = new CompoundShape();
         compoundShape.add(new Circle(5));
         compoundShape.add(new Rectangle(4, 5));
@@ -29,7 +29,7 @@ public class CompoundShapeTest {
     }
 
     @Test
-    public void test_compoundShape_perimeter() throws Exception {
+    public void test_compoundShape_perimeter() {
         CompoundShape compoundShape = new CompoundShape();
         compoundShape.add(new Circle(5));
         compoundShape.add(new Rectangle(4, 5));
@@ -38,7 +38,7 @@ public class CompoundShapeTest {
     }
 
     @Test
-    public void test_compoundShape_add() throws Exception {
+    public void test_compoundShape_add() {
         CompoundShape compoundShape = new CompoundShape();
         compoundShape.add(new Rectangle(4, 5));
         compoundShape.add(new Circle(5));
@@ -48,7 +48,7 @@ public class CompoundShapeTest {
     }
 
     @Test
-    public void test_compoundShape_iterator() throws Exception {
+    public void test_compoundShape_iterator() {
         CompoundShape compoundShape = new CompoundShape();
         compoundShape.add(new Rectangle(4, 5));
         compoundShape.add(new Circle(5));
