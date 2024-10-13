@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test;
 public class PrettyPrintVisitorTest {
 
     @Test
-    public void testVisitCircle() {
+    public void test_Visit_Circle() {
         Circle circle = new Circle(5.0);
         PrettyPrintVisitor visitor = new PrettyPrintVisitor();
         circle.accept(visitor);
@@ -20,7 +20,7 @@ public class PrettyPrintVisitorTest {
     }
 
     @Test
-    public void testVisitRectangle() {
+    public void test_Visit_Rectangle() {
         Rectangle rectangle = new Rectangle(3.0, 4.0);
         PrettyPrintVisitor visitor = new PrettyPrintVisitor();
         rectangle.accept(visitor);
@@ -30,7 +30,7 @@ public class PrettyPrintVisitorTest {
     }
 
     @Test
-    public void testVisitTriangle() {
+    public void test_Visit_Triangle() {
         List<TwoDimensionalVector> vectors = new ArrayList<>();
         vectors.add(new TwoDimensionalVector(0, 0));
         vectors.add(new TwoDimensionalVector(3, 0));
@@ -44,7 +44,7 @@ public class PrettyPrintVisitorTest {
     }
 
     @Test
-    public void testVisitCompoundShape() {
+    public void test_Visit_CompoundShape() {
         Circle circle = new Circle(3.0);
         Rectangle rectangle = new Rectangle(3.0, 4.0);
 
@@ -60,7 +60,7 @@ public class PrettyPrintVisitorTest {
     }
 
     @Test
-    public void testVisitTextedShape() {
+    public void test_Visit_TextedShape() {
         Circle circle = new Circle(1.0);
         TextedShape textedShape = new TextedShape(circle, "Hello");
 
@@ -72,7 +72,7 @@ public class PrettyPrintVisitorTest {
     }
 
     @Test
-    public void testVisitColoredShape() {
+    public void test_Visit_ColoredShape() {
         Circle circle = new Circle(2.0);
         ColoredShape coloredShape = new ColoredShape(circle, "RED");
 
@@ -85,28 +85,27 @@ public class PrettyPrintVisitorTest {
     }
 
     @Test
-    public void testVisitComplexCompoundShape() {
-        Circle circle = new Circle(3.0);
-        Rectangle rectangle = new Rectangle(3.0, 4.0);
-        List<TwoDimensionalVector> vectors = new ArrayList<>();
-        vectors.add(new TwoDimensionalVector(0, 0));
+    public void test_Visit_Complex_CompoundShape() {
+        List<TwoDimensionalVector> vectors = new ArrayList();
         vectors.add(new TwoDimensionalVector(4, 0));
+        vectors.add(new TwoDimensionalVector(4, 3));
         vectors.add(new TwoDimensionalVector(0, 3));
 
-        Triangle triangle = new Triangle(vectors);
+        CompoundShape innerinner = new CompoundShape();
+        innerinner.add(new Triangle(vectors));
 
-        CompoundShape innerCompound = new CompoundShape();
-        innerCompound.add(triangle);
+        CompoundShape inner = new CompoundShape();
+        inner.add(innerinner);
+        inner.add(new TextedShape(new Rectangle(3, 4), "this is a rectangle with blue color"));
 
-        CompoundShape outerCompound = new CompoundShape();
-        outerCompound.add(circle);
-        outerCompound.add(innerCompound);
-        outerCompound.add(rectangle);
+        CompoundShape outer = new CompoundShape();
+        outer.add(new Circle(3));
+        outer.add(inner);
 
         PrettyPrintVisitor visitor = new PrettyPrintVisitor();
-        outerCompound.accept(visitor);
+        outer.accept(visitor);
 
-        String expectedOutput = "CompoundShape {\n  Circle 3.0\n  CompoundShape {\n    Triangle [0,0] [4,0] [0,3]\n  }\n  Rectangle 3.0 4.0\n}";
+        String expectedOutput = "CompoundShape {\n  Circle 3.0\n  CompoundShape {\n    CompoundShape {\n      Triangle [4,0] [4,3] [0,3]\n    }\n    Rectangle 3.0 4.0, text: this is a rectangle with blue color\n  }\n}";
         assertEquals(expectedOutput, visitor.getResult());
     }
 }

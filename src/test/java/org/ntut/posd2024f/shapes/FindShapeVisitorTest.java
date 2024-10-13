@@ -13,22 +13,21 @@ import org.junit.jupiter.api.Test;
 public class FindShapeVisitorTest {
     
     @Test
-    public void test_Find_Circle_With_Radius3() {
+    public void test_Find_Circle_With_Radius_equals_to_3() {
         Circle circle1 = new Circle(3.0);
         Circle circle2 = new Circle(5.0);
         CompoundShape compoundShape = new CompoundShape();
         compoundShape.add(circle1);
         compoundShape.add(circle2);
 
-        // Predicate to find Circle with radius 3.0
         Predicate<Shape> condition = shape -> (shape instanceof Circle) && ((Circle) shape).getRadius() == 3.0;
         FindShapeVisitor visitor = new FindShapeVisitor(condition);
         
         compoundShape.accept(visitor);
         
         List<Shape> foundShapes = visitor.getResult();
-        assertEquals(1, foundShapes.size());  // Should find only one circle with radius 3
-        assertTrue(foundShapes.contains(circle1));  // Make sure the found shape is circle1
+        assertEquals(1, foundShapes.size());
+        assertTrue(foundShapes.contains(circle1));
     }
 
     @Test
@@ -39,7 +38,6 @@ public class FindShapeVisitorTest {
         compoundShape.add(rectangle1);
         compoundShape.add(rectangle2);
 
-        // Predicate to find Rectangle with length 3.0 and width 4.0
         Predicate<Shape> condition = shape -> (shape instanceof Rectangle) && ((Rectangle) shape).getLength() == 3.0 && ((Rectangle) shape).getWidth() == 4.0;
         FindShapeVisitor visitor = new FindShapeVisitor(condition);
         
@@ -55,18 +53,24 @@ public class FindShapeVisitorTest {
     public void test_Find_Shape_In_Complex_CompoundShape() {
         Circle circle = new Circle(3.0);
         Rectangle rectangle = new Rectangle(3.0, 4.0);
-        List<TwoDimensionalVector> vectors = new ArrayList<>();
-        vectors.add(new TwoDimensionalVector(4, 0));
-        vectors.add(new TwoDimensionalVector(4, 3));
-        vectors.add(new TwoDimensionalVector(0, 3));
-
-        Triangle triangle = new Triangle(vectors);
-        
+        List<TwoDimensionalVector> vectors1 = new ArrayList<>();
+        vectors1.add(new TwoDimensionalVector(4, 0));
+        vectors1.add(new TwoDimensionalVector(4, 3));
+        vectors1.add(new TwoDimensionalVector(0, 3));
+        Triangle triangle = new Triangle(vectors1);
+        List<TwoDimensionalVector> vectors2 = new ArrayList<>();
+        vectors2.add(new TwoDimensionalVector(0, 0));   // A
+        vectors2.add(new TwoDimensionalVector(4, 0));   // B
+        vectors2.add(new TwoDimensionalVector(5, 3));   // C
+        vectors2.add(new TwoDimensionalVector(2, 5));   // D
+        vectors2.add(new TwoDimensionalVector(-1, 3));  // E
+        ConvexPolygon convexPolygon = new ConvexPolygon(vectors2);
         CompoundShape innerCompound = new CompoundShape();
         innerCompound.add(triangle);
-        
+        innerCompound.add(convexPolygon);
+
         CompoundShape outerCompound = new CompoundShape();
-        outerCompound.add(circle);  
+        outerCompound.add(circle);
         outerCompound.add(innerCompound);  
         outerCompound.add(rectangle);  
 
@@ -76,8 +80,12 @@ public class FindShapeVisitorTest {
         outerCompound.accept(visitor);
         
         List<Shape> foundShapes = visitor.getResult();
-        assertEquals(3, foundShapes.size());
+        //這3個包含outerCompound、innerCompound、triangle、circle
+        assertEquals(5, foundShapes.size());
         assertFalse(foundShapes.contains(triangle));
+        assertTrue(foundShapes.contains(convexPolygon));
+        assertTrue(foundShapes.contains(outerCompound));
+        assertTrue(foundShapes.contains(innerCompound));
         assertTrue(foundShapes.contains(circle));
         assertTrue(foundShapes.contains(rectangle));
     }
@@ -85,17 +93,16 @@ public class FindShapeVisitorTest {
     @Test
     public void test_Find_ColoredShape() {
         Circle circle = new Circle(3.0);
-        ColoredShape coloredCircle = new ColoredShape(circle, "Red");
+        ColoredShape coloredCircle = new ColoredShape(circle, "RED");
 
-        // Predicate to find colored shapes
         Predicate<Shape> condition = shape -> shape instanceof ColoredShape;
         FindShapeVisitor visitor = new FindShapeVisitor(condition);
 
         coloredCircle.accept(visitor);
 
         List<Shape> foundShapes = visitor.getResult();
-        assertEquals(1, foundShapes.size());  // Should find one colored shape
-        assertTrue(foundShapes.contains(coloredCircle));  // Make sure it found the colored circle
+        assertEquals(1, foundShapes.size());
+        assertTrue(foundShapes.contains(coloredCircle));
     }
 
     @Test
@@ -103,33 +110,31 @@ public class FindShapeVisitorTest {
         Rectangle rectangle = new Rectangle(3.0, 4.0);
         TextedShape textedRectangle = new TextedShape(rectangle, "This is a rectangle");
 
-        // Predicate to find texted shapes
         Predicate<Shape> condition = shape -> shape instanceof TextedShape;
         FindShapeVisitor visitor = new FindShapeVisitor(condition);
 
         textedRectangle.accept(visitor);
 
         List<Shape> foundShapes = visitor.getResult();
-        assertEquals(1, foundShapes.size());  // Should find one texted shape
-        assertTrue(foundShapes.contains(textedRectangle));  // Make sure it found the texted rectangle
+        assertEquals(1, foundShapes.size()); 
+        assertTrue(foundShapes.contains(textedRectangle)); 
     }
 
     @Test
     public void test_Find_Shape_With_Specific_Perimeter() {
-        Circle circle = new Circle(10);  // Circle with radius 0 has perimeter 0
-        Rectangle rectangle = new Rectangle(5, 5);  // Rectangle with 0 dimensions has perimeter 0
+        Circle circle = new Circle(10);
+        Rectangle rectangle = new Rectangle(5, 5);
         CompoundShape compoundShape = new CompoundShape();
         compoundShape.add(circle);
         compoundShape.add(rectangle);
 
-        // Predicate to find shapes with perimeter equal to 0
         Predicate<Shape> condition = shape -> shape.perimeter() == 20;
         FindShapeVisitor visitor = new FindShapeVisitor(condition);
         
         compoundShape.accept(visitor);
         
         List<Shape> foundShapes = visitor.getResult();
-        assertEquals(1, foundShapes.size());  // Should find both circle and rectangle
+        assertEquals(1, foundShapes.size());
         assertFalse(foundShapes.contains(circle));
         assertTrue(foundShapes.contains(rectangle));
     }
