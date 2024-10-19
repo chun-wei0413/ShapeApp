@@ -60,6 +60,23 @@ public class PrettyPrintVisitorTest {
     }
 
     @Test
+    public void test_Visit_ConvexPolygon() {
+        List<TwoDimensionalVector> vectors = new ArrayList<>();
+        vectors.add(new TwoDimensionalVector(0, 0));   // A
+        vectors.add(new TwoDimensionalVector(4, 0));   // B
+        vectors.add(new TwoDimensionalVector(5, 3));   // C
+        vectors.add(new TwoDimensionalVector(2, 5));   // D
+        vectors.add(new TwoDimensionalVector(-1, 3));  // E
+        ConvexPolygon convexPolygon = new ConvexPolygon(vectors);
+
+        PrettyPrintVisitor visitor = new PrettyPrintVisitor();
+        convexPolygon.accept(visitor);
+
+        String expectedOutput = "ConvexPolygon [0,0] [4,0] [5,3] [2,5] [-1,3]";
+        assertEquals(expectedOutput, visitor.getResult());
+    }
+
+    @Test
     public void test_Visit_TextedShape() {
         Circle circle = new Circle(1.0);
         TextedShape textedShape = new TextedShape(circle, "Hello");
