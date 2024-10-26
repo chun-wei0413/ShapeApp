@@ -30,6 +30,6 @@ public class Triangle implements Shape{
 
     @Override
     public String toString() {
-        return "Triangle "+ this.a + ", " + this.b + ", " + this.c;
+        return "Triangle "+ this.a + " " + this.b + " " + this.c;
     }
 }

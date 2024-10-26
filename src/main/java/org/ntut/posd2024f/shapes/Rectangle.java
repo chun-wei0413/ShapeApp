@@ -27,6 +27,6 @@ public class Rectangle implements Shape{
     }
 
     public String toString() {
-        return "Rectangle "+ this.length + ", " + this.width;
+        return "Rectangle "+ this.length + " " + this.width;
     }
 }

@@ -21,6 +21,6 @@ public class ShapeTest {
     @Test
     public void test_shape_toString() throws Exception{
         Shape rectangle = new Rectangle(5, 4);
-        assertEquals("Rectangle 5.0, 4.0", rectangle.toString());
+        assertEquals("Rectangle 5.0 4.0", rectangle.toString());
     }
 }

@@ -9,7 +9,7 @@ public class RectangleTest {
     @Test
     public void test_valid_rectangle() throws Exception{
         Rectangle rectangle = new Rectangle(5, 4);
-        assertEquals("Rectangle 5.0, 4.0", rectangle.toString());
+        assertEquals("Rectangle 5.0 4.0", rectangle.toString());
     }
 
     @Test(expected = Exception.class)
@@ -32,6 +32,6 @@ public class RectangleTest {
     @Test
     public void test_valid_toString() throws Exception{
         Rectangle rectangle = new Rectangle(5, 4);
-        assertEquals("Rectangle 5.0, 4.0", rectangle.toString());
+        assertEquals("Rectangle 5.0 4.0", rectangle.toString());
     }
 }

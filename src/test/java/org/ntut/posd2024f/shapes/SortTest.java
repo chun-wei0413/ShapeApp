@@ -17,8 +17,8 @@ public class SortTest {
 
         shapes.sort(Sort.BY_AREA_ASCENDING);
 
-        assertEquals("Triangle 3.0, 4.0, 5.0", shapes.get(0).toString());
-        assertEquals("Rectangle 5.0, 4.0", shapes.get(1).toString());
+        assertEquals("Triangle 3.0 4.0 5.0", shapes.get(0).toString());
+        assertEquals("Rectangle 5.0 4.0", shapes.get(1).toString());
         assertEquals("Circle 5.0", shapes.get(2).toString());
     }
 
@@ -32,8 +32,8 @@ public class SortTest {
         shapes.sort(Sort.BY_AREA_DESCENDING);
 
         assertEquals("Circle 5.0", shapes.get(0).toString());
-        assertEquals("Rectangle 5.0, 4.0", shapes.get(1).toString());
-        assertEquals("Triangle 3.0, 4.0, 5.0", shapes.get(2).toString());
+        assertEquals("Rectangle 5.0 4.0", shapes.get(1).toString());
+        assertEquals("Triangle 3.0 4.0 5.0", shapes.get(2).toString());
     }
 
     @Test
@@ -45,8 +45,8 @@ public class SortTest {
 
         shapes.sort(Sort.BY_PERIMETER_ASCENDING);
 
-        assertEquals("Triangle 3.0, 4.0, 5.0", shapes.get(0).toString());
-        assertEquals("Rectangle 5.0, 4.0", shapes.get(1).toString());
+        assertEquals("Triangle 3.0 4.0 5.0", shapes.get(0).toString());
+        assertEquals("Rectangle 5.0 4.0", shapes.get(1).toString());
         assertEquals("Circle 5.0", shapes.get(2).toString());
     }
     
@@ -60,7 +60,7 @@ public class SortTest {
         shapes.sort(Sort.BY_PERIMETER_DESCENDING);
 
         assertEquals("Circle 5.0", shapes.get(0).toString());
-        assertEquals("Rectangle 5.0, 4.0", shapes.get(1).toString());
-        assertEquals("Triangle 3.0, 4.0, 5.0", shapes.get(2).toString());
+        assertEquals("Rectangle 5.0 4.0", shapes.get(1).toString());
+        assertEquals("Triangle 3.0 4.0 5.0", shapes.get(2).toString());
     }
 }
