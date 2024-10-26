@@ -1,45 +1,26 @@
 package org.ntut.posd2024f.shapes;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.NoSuchElementException;
+import static org.junit.Assert.assertEquals;
 
-import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-
-import java.lang.Math;
+import org.junit.Test;
 
 public class ShapeTest {
-    // e.g. Shape circle = new Circle(...)
-
+    
     @Test
-    public void test_shape_area() {
-        Shape circle = new Circle(10);
-        assertEquals(10*10*Math.PI, circle.area(), 0.001);
+    public void test_shape_area() throws Exception{
+        Shape circle = new Circle(5);
+        assertEquals(5*5*Math.PI, circle.area(), 0.001);
     }
 
     @Test
-    public void test_shape_perimeter() {
-        Shape rectangle = new Rectangle(12, 10);
-        assertEquals((10+12)*2, rectangle.perimeter(), 0.001); 
+    public void test_shape_perimeter() throws Exception{
+        Shape trangle = new Triangle(3, 4, 5);
+        assertEquals(12, trangle.perimeter(), 0.001);
     }
 
     @Test
-    public void test_shape_add() {
-        Shape circle = new Circle(10);
-        Shape rectangle = new Rectangle(4, 5);
-        assertThrows(ShapeException.class, () -> circle.add(rectangle));
-    }
-
-    @Test
-    public void test_shape_iterator() {
-        Shape circle = new Circle(7);
-        Iterator<Shape> circleIterator = circle.iterator();
-        
-        assertFalse(circleIterator.hasNext());
-        assertThrows(NoSuchElementException.class, () -> circleIterator.next());
+    public void test_shape_toString() throws Exception{
+        Shape rectangle = new Rectangle(5, 4);
+        assertEquals("Rectangle 5.0, 4.0", rectangle.toString());
     }
 }

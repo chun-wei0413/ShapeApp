@@ -1,73 +1,37 @@
 package org.ntut.posd2024f.shapes;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.Assert.assertEquals;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.junit.jupiter.api.Test;
-
+import org.junit.Test;
 
 public class TriangleTest {
-    // Triangle t = new Triangle(...)
-
+    
     @Test
-    public void test_Valid_Triangle() {
-        List<TwoDimensionalVector>vectors = new ArrayList<>();
-        vectors.add(new TwoDimensionalVector(1, 1));
-        vectors.add(new TwoDimensionalVector(4, 1));
-        vectors.add(new TwoDimensionalVector(1, 4));
-        new Triangle(vectors);
+    public void test_valid_triangle() throws Exception{
+        Triangle triangle = new Triangle(3,4,5);
+        assertEquals("Triangle 3.0, 4.0, 5.0", triangle.toString());
+    }
+    
+    @Test(expected = Exception.class)
+    public void test_invalid_triangle() throws Exception{
+        new Triangle(2,4,7);
     }
 
     @Test
-    public void test_Invalid_Triangle() {
-        List<TwoDimensionalVector>vectors = new ArrayList<>();
-        vectors.add(new TwoDimensionalVector(1, 1));
-        vectors.add(new TwoDimensionalVector(2, 2));
-        vectors.add(new TwoDimensionalVector(3, 3));
-        assertThrows(ShapeException.class, () -> new Triangle(vectors));
+    public void test_triangle_area() throws Exception{
+        Triangle triangle = new Triangle(3,4,5);
+        assertEquals(6, triangle.area(), 0.001);
     }
 
     @Test
-    public void test_Triangle_Area() {
-        List<TwoDimensionalVector>vectors = new ArrayList<>();
-        vectors.add(new TwoDimensionalVector(1, 1));
-        vectors.add(new TwoDimensionalVector(4, 1));
-        vectors.add(new TwoDimensionalVector(1, 4));
-
-        Triangle triangle = new Triangle(vectors);
-        assertEquals(4.500, triangle.area(), 0.001);
-    }
-
-
-    @Test
-    public void test_Triangle_Perimeter() {
-        List<TwoDimensionalVector>vectors = new ArrayList<>();
-        vectors.add(new TwoDimensionalVector(1, 1));
-        vectors.add(new TwoDimensionalVector(4, 1));
-        vectors.add(new TwoDimensionalVector(1, 4));
-
-        Triangle triangle = new Triangle(vectors);
-        assertEquals(10.242, triangle.perimeter(), 0.001);
+    public void test_triangle_perimeter() throws Exception{
+        Triangle triangle = new Triangle(3,4,5);
+        assertEquals(12, triangle.perimeter(), 0.001);
     }
 
     @Test
-    public void test_Triangle_getVectors(){
-        List<TwoDimensionalVector> vectors = new ArrayList<>();
-        vectors.add(new TwoDimensionalVector(1, 1));
-        vectors.add(new TwoDimensionalVector(4, 1));
-        vectors.add(new TwoDimensionalVector(1, 4));
-
-        Triangle triangle = new Triangle(vectors);
-        List<TwoDimensionalVector> testVectors = triangle.getVectors();
-
-        assertEquals(1, testVectors.get(0).getX());
-        assertEquals(1, testVectors.get(0).getY());
-        assertEquals(4, testVectors.get(1).getX());
-        assertEquals(1, testVectors.get(1).getY());
-        assertEquals(1, testVectors.get(2).getX());
-        assertEquals(4, testVectors.get(2).getY());
+    public void test_triangle_toStirng() throws Exception{
+        Triangle triangle = new Triangle(3,4,5);
+        assertEquals("Triangle 3.0, 4.0, 5.0", triangle.toString());
     }
 }

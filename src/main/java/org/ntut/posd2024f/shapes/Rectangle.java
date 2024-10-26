@@ -1,44 +1,32 @@
 package org.ntut.posd2024f.shapes;
 
-public class Rectangle implements Shape {
-    private double length;
-    private double width;
+public class Rectangle implements Shape{
+    private double length, width;
 
-    public Rectangle(double length, double width) {
-        if(length <= 0 || width <=0){
-            throw new ShapeException("It's not a rectangle!");
+    public Rectangle(double length, double width) throws Exception{
+        if(!isValid(length, width)){
+            throw new Exception("It's not a rectangle!");
         }
         this.length = length;
-        this.width = width;    
+        this.width = width;
     }
 
-    @Override
-	public double area() {
-        return length * width;
+    public boolean isValid(double length, double width) {
+        if(length <= 0 || width <= 0){
+            return false;
+        }
+        return true;
     }
-    
-    @Override
+
+    public double area() {
+        return this.length * this.width;
+    }
+
     public double perimeter() {
-        return (length + width) * 2;
+        return (this.length + this.width) * 2;
     }
 
-    @Override
-    public <T> void accept(Visitor<T> visitor) {
-        visitor.visitRectangle(this);
-    }
-
-    public boolean equals(Object o){
-        if(this == o) return true;
-        if(o == null || this.getClass() != o.getClass()) return false;
-        Rectangle rec = (Rectangle) o;
-        return Double.compare(this.length, rec.length) == 0 && Double.compare(this.width, rec.width) == 0;
-    }
-
-    public double getLength() {
-        return length;
-    }
-
-    public double getWidth() {
-        return width;
+    public String toString() {
+        return "Rectangle "+ this.length + ", " + this.width;
     }
 }

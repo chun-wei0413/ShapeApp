@@ -2,7 +2,7 @@ package org.ntut.posd2024f.shapes;
 
 import java.util.Comparator;
 
-public class Sort {
+public class Sort{
     public static Comparator<Shape> BY_AREA_ASCENDING = new ByAreaAscending();
     public static Comparator<Shape> BY_AREA_DESCENDING = new ByAreaDescending();
     public static Comparator<Shape> BY_PERIMETER_ASCENDING = new ByPerimeterAscending();
@@ -22,7 +22,7 @@ public class Sort {
 
     private static class ByPerimeterAscending implements Comparator<Shape> {
         public int compare(Shape left, Shape right){
-            return Double.compare(left.perimeter(), right.perimeter());
+            return Double.compare(left.perimeter() , right.perimeter());
         }
     }
 
@@ -30,5 +30,8 @@ public class Sort {
         public int compare(Shape left, Shape right){
             return Double.compare(right.perimeter(), left.perimeter());
         }
-    }  
+    }    
 }
+
+
+

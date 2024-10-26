@@ -1,43 +1,37 @@
 package org.ntut.posd2024f.shapes;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.Assert.assertEquals;
 
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 
 public class RectangleTest {
-    // e.g. Rectangle r = new rectangle(...)
+
     @Test
-    public void test_valid_rectangle() {
-        new Rectangle(5, 6);
+    public void test_valid_rectangle() throws Exception{
+        Rectangle rectangle = new Rectangle(5, 4);
+        assertEquals("Rectangle 5.0, 4.0", rectangle.toString());
+    }
+
+    @Test(expected = Exception.class)
+    public void test_invalid_rectangle() throws Exception{
+        new Rectangle(0, -1);
     }
 
     @Test
-    public void test_invalid_rectangle_when_length_zero() {
-        assertThrows(ShapeException.class, () -> new Rectangle(0, 5));
+    public void test_rectangle_area() throws Exception{
+        Rectangle rectangle = new Rectangle(5, 4);
+        assertEquals(20, rectangle.area(), 0.001);
     }
 
     @Test
-    public void test_invalid_rectangle_when_width_negative() {
-        assertThrows(Exception.class, () -> new Rectangle(6, -5));
+    public void test_rectangle_perimeter() throws Exception{
+        Rectangle rectangle = new Rectangle(5, 4);
+        assertEquals( 18, rectangle.perimeter(), 0.001);
     }
 
     @Test
-    public void test_rectangle_area() {
-        Rectangle rectangle = new Rectangle(3, 4);
-        assertEquals(12, rectangle.area(), 0);
-    }
-
-    @Test
-    public void test_rectangle_perimeter() {
-        Rectangle rectangle = new Rectangle(7, 8);
-        assertEquals(30, rectangle.perimeter(), 0);
-    }
-
-    @Test
-    public void test_rectangle_getLength_and_getWidth() {
-        Rectangle rectangle = new Rectangle(9, 10);
-        assertEquals(9, rectangle.getLength());
-        assertEquals(10, rectangle.getWidth());
+    public void test_valid_toString() throws Exception{
+        Rectangle rectangle = new Rectangle(5, 4);
+        assertEquals("Rectangle 5.0, 4.0", rectangle.toString());
     }
 }
