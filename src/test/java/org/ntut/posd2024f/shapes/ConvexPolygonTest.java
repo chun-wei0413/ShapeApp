@@ -1,12 +1,13 @@
 package org.ntut.posd2024f.shapes;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+
+import static org.junit.Assert.assertEquals;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
+
 
 public class ConvexPolygonTest {
     @Test
@@ -21,7 +22,7 @@ public class ConvexPolygonTest {
         new ConvexPolygon(vectors);
     }
 
-    @Test
+    @Test(expected = ShapeException.class)
     public void test_invalid_convexpolygon() {
         List<TwoDimensionalVector> vectors = new ArrayList<>();
         vectors.add(new TwoDimensionalVector(3, 7));
@@ -29,7 +30,7 @@ public class ConvexPolygonTest {
         vectors.add(new TwoDimensionalVector(6, 2));
         vectors.add(new TwoDimensionalVector(4, -2));
         vectors.add(new TwoDimensionalVector(1, 1));
-        assertThrows(ShapeException.class, () -> new ConvexPolygon(vectors));
+        new ConvexPolygon(vectors);
     }
 
     @Test

@@ -1,13 +1,12 @@
 package org.ntut.posd2024f.shapes;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 
 public class ShapeTest {
     
@@ -23,22 +22,20 @@ public class ShapeTest {
         assertEquals((10+12)*2, rectangle.perimeter(), 0.001); 
     }
 
-    @Test
+    @Test(expected = ShapeException.class)
     public void test_shape_invalid_add() {
         Shape rectangle = new Rectangle(12, 10);
         Shape circle = new Circle(5);
-        assertThrows(ShapeException.class, () -> { 
-            rectangle.add(circle);
-        });
+        rectangle.add(circle);
     }
 
-    @Test
+    @Test(expected = NoSuchElementException.class)
     public void test_shape_iterator() {
         Shape circle = new Circle(7);
         Iterator<Shape> circleIterator = circle.iterator();
         
         assertFalse(circleIterator.hasNext());
-        assertThrows(NoSuchElementException.class, () -> circleIterator.next());
+        circleIterator.next();
     }
 
 }

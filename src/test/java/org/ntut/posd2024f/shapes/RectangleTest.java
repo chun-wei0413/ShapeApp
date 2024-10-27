@@ -1,9 +1,8 @@
 package org.ntut.posd2024f.shapes;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.Assert.assertEquals;
 
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 
 public class RectangleTest {
 
@@ -12,11 +11,9 @@ public class RectangleTest {
         Rectangle rectangle = new Rectangle(5, 4);
     }
 
-    @Test
+    @Test(expected = ShapeException.class)
     public void test_invalid_rectangle() {
-        assertThrows(ShapeException.class, () -> {
-            new Rectangle(0, -1);
-        });
+        new Rectangle(0, -1);
     }
 
     @Test

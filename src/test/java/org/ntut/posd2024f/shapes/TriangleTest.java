@@ -1,12 +1,13 @@
 package org.ntut.posd2024f.shapes;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+
+import static org.junit.Assert.assertEquals;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
+
 
 public class TriangleTest {
     
@@ -20,13 +21,13 @@ public class TriangleTest {
 
     }
     
-    @Test
+    @Test(expected = ShapeException.class)
     public void test_invalid_triangle() {
         List<TwoDimensionalVector>vectors = new ArrayList<>();
         vectors.add(new TwoDimensionalVector(1, 1));
         vectors.add(new TwoDimensionalVector(2, 2));
         vectors.add(new TwoDimensionalVector(3, 3));
-        assertThrows(ShapeException.class, () -> new Triangle(vectors));
+        new Triangle(vectors);
 
     }
 

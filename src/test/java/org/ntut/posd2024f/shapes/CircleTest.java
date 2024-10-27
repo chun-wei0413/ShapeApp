@@ -1,9 +1,8 @@
 package org.ntut.posd2024f.shapes;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.Assert.assertEquals;
 
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 
 public class CircleTest {
     
@@ -12,12 +11,11 @@ public class CircleTest {
         Circle circle = new Circle(5);
     }
 
-    @Test
-    public void test_invalid_circle() {
-        assertThrows(ShapeException.class, () -> {
-            new Circle(-1);
-        });
+    @Test(expected = ShapeException.class)
+    public void test_invalid_circle_when_radius_zero() throws Exception {
+        new Circle(0);
     }
+
 
     @Test
     public void test_circle_area() {

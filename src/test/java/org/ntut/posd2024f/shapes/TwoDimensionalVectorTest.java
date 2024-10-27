@@ -1,11 +1,11 @@
 package org.ntut.posd2024f.shapes;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.Assert.assertEquals;
 
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 
 public class TwoDimensionalVectorTest {
-        @Test
+    @Test
     public void test_twoDimensionalVector(){
         TwoDimensionalVector twoD = new TwoDimensionalVector(4, 5);
         assertEquals(4, twoD.getX(), 0.001);
