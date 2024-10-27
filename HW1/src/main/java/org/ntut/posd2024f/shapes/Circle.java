@@ -3,9 +3,9 @@ package org.ntut.posd2024f.shapes;
 public class Circle implements Shape{
     private double radius;
 
-    public Circle(double radius) {
+    public Circle(double radius) throws Exception {
         if(!isValid(radius)){
-            throw new ShapeException("It's not a circle!");
+            throw new Exception("It's not a circle!");
         }
         this.radius = radius;
     }
@@ -25,4 +25,8 @@ public class Circle implements Shape{
         return this.radius * 2 * Math.PI;
     }
 
+    @Override
+    public String toString(){
+        return "Circle " + this.radius;
+    }
 }

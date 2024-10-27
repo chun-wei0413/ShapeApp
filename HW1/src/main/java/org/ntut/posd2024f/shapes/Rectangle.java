@@ -3,9 +3,9 @@ package org.ntut.posd2024f.shapes;
 public class Rectangle implements Shape{
     private double length, width;
 
-    public Rectangle(double length, double width) {
+    public Rectangle(double length, double width) throws Exception{
         if(!isValid(length, width)){
-            throw new ShapeException("It's not a rectangle!");
+            throw new Exception("It's not a rectangle!");
         }
         this.length = length;
         this.width = width;
@@ -26,4 +26,7 @@ public class Rectangle implements Shape{
         return (this.length + this.width) * 2;
     }
 
+    public String toString() {
+        return "Rectangle "+ this.length + " " + this.width;
+    }
 }
