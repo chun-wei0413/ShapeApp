@@ -17,7 +17,17 @@ public class DiscountItem implements Item{
 
     @Override
     public String getTitle() {
-        return "<"+item.getTitle()+">" + " is on sale! " + discount*100 + "% off";
+        StringBuilder sb = new StringBuilder();
+        if(check()){
+            sb.append("<").append(item.getTitle()).append(">").append(" is on sale! ").append((int)(discount*100)).append("% off");
+            return sb.toString();
+            // return "<"+item.getTitle()+">" + " is on sale! " + Integer.valueOf((int)discount*100).toString() + "% off";
+        }
+        else{
+            sb.append("<").append(item.getTitle()).append(">").append(" is on sale! ").append((discount*100)).append("% off");
+            return sb.toString();
+            // return "<"+item.getTitle()+">" + " is on sale! " + discount*100 + "% off";
+        }
     }
 
     public Item getItem(){
@@ -38,4 +48,11 @@ public class DiscountItem implements Item{
         visitor.visitDiscountItem(this);
     }
 
+    public boolean check(){
+        double test = discount * 1000;
+        if((test % 10) > 0) {
+            return false;
+        }
+        return true;
+    }
 }
