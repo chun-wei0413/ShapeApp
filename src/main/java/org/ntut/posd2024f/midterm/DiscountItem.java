@@ -19,12 +19,12 @@ public class DiscountItem implements Item{
     public String getTitle() {
         StringBuilder sb = new StringBuilder();
         if(check()){
-            sb.append("<").append(item.getTitle()).append(">").append(" is on sale! ").append((int)(discount*100)).append("% off");
+            sb.append("<").append(item.getTitle()).append(">").append(" is on sale! ").append((int)(discount*100)).append("% off!");
             return sb.toString();
             // return "<"+item.getTitle()+">" + " is on sale! " + Integer.valueOf((int)discount*100).toString() + "% off";
         }
         else{
-            sb.append("<").append(item.getTitle()).append(">").append(" is on sale! ").append((discount*100)).append("% off");
+            sb.append("<").append(item.getTitle()).append(">").append(" is on sale! ").append((discount*100)).append("% off!");
             return sb.toString();
             // return "<"+item.getTitle()+">" + " is on sale! " + discount*100 + "% off";
         }
