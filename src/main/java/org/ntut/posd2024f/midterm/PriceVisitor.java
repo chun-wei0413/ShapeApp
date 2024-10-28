@@ -13,7 +13,7 @@ public class PriceVisitor implements ItemVisitor{
 
     @Override
     public void visitBook(Book book) {
-        total += book.getPrice() * discount;
+        total += book.getPrice();
     }
 
     @Override
@@ -34,6 +34,6 @@ public class PriceVisitor implements ItemVisitor{
 
     @Override
     public Object getResult() {
-        return Double.valueOf(total);
+        return Double.valueOf(total * discount);
     }
 }
