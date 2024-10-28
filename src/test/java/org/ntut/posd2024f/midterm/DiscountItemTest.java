@@ -19,6 +19,14 @@ public class DiscountItemTest {
     }
 
     @Test
+    public void test_discountitem_gettitle(){
+        Book book = new Book("test", 100);
+        DiscountItem discountItem = new DiscountItem(book, 0.1);
+        assertEquals(0.1, discountItem.getDiscount());
+        assertEquals("<test> is on sale! 10% off", discountItem.getTitle());
+    }
+
+    @Test
     public void test_discountitem_getitem(){
         Bundle bundle = new Bundle("bundle");
         Book b1 = new Book("b1", 100);

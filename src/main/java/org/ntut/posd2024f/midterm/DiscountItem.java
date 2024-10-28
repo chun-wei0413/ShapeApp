@@ -18,42 +18,54 @@ public class DiscountItem implements Item{
     @Override
     public String getTitle() {
         String s = "";
-        double d =0;
-        int i =0;
-        boolean f = false;
-        int check = (int)discount * 1000;
-        if(check % 10 > 0){
-            f = true;
-            d = discount * 100;
-        } else {
-            i = (int)discount * 100;
+        if(item instanceof Book){
+            return "<"+item.getTitle()+">" + " is on sale! " + discount*100 + "% off";
+        }
+        else{
+            Iterator<Item> it = item.iterator();
+
+            while(it.hasNext()){
+                s += "<"+item.getTitle()+">" + " is on sale! " + discount*100 + "% off\n";
+            }
+            return s;
         }
 
-        if(f){
-            if(item instanceof Book){
-                return "<"+item.getTitle()+">" + " is on sale! " + d + "% off";
-            }
-            else{
-                Iterator<Item> it = item.iterator();
+        // double d =0;
+        // int i =0;
+        // boolean f = false;
+        // int check = (int)discount * 1000;
+        // if(check % 10 > 0){
+        //     f = true;
+        //     d = discount * 100;
+        // } else {
+        //     i = (int)discount * 100;
+        // }
 
-                while(it.hasNext()){
-                    s += "<"+item.getTitle()+">" + " is on sale! " + d + "% off\n";
-                }
-                return s;
-            }
-        }else {
-            if(item instanceof Book){
-                return "<"+item.getTitle()+">" + " is on sale! " + i + "% off";
-            }
-            else{
-                Iterator<Item> it = item.iterator();
+        // if(f){
+        //     if(item instanceof Book){
+        //         return "<"+item.getTitle()+">" + " is on sale! " + d + "% off";
+        //     }
+        //     else{
+        //         Iterator<Item> it = item.iterator();
 
-                while(it.hasNext()){
-                    s += "<"+item.getTitle()+">" + " is on sale! " + i + "% off\n";
-                }
-                return s;
-            }
-        }
+        //         while(it.hasNext()){
+        //             s += "<"+item.getTitle()+">" + " is on sale! " + d + "% off\n";
+        //         }
+        //         return s;
+        //     }
+        // }else {
+        //     if(item instanceof Book){
+        //         return "<"+item.getTitle()+">" + " is on sale! " + i + "% off";
+        //     }
+        //     else{
+        //         Iterator<Item> it = item.iterator();
+
+        //         while(it.hasNext()){
+        //             s += "<"+item.getTitle()+">" + " is on sale! " + i + "% off\n";
+        //         }
+        //         return s;
+        //     }
+        // }
 
     }
 
