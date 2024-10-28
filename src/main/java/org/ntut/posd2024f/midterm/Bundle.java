@@ -1,6 +1,7 @@
 package org.ntut.posd2024f.midterm;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class Bundle implements Item{
@@ -27,6 +28,11 @@ public class Bundle implements Item{
 
     public int size() {
         return bundles.size();
+    }
+
+    @Override
+    public Iterator<Item> iterator(){
+        return bundles.iterator();
     }
 
     @Override
