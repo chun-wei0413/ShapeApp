@@ -21,9 +21,9 @@ public class DiscountItemTest {
     @Test
     public void test_discountitem_gettitle(){
         Book book = new Book("test", 100);
-        DiscountItem discountItem = new DiscountItem(book, 0.1);
-        assertEquals(0.1, discountItem.getDiscount());
-        assertEquals("<test> is on sale! 10.0% off", discountItem.getTitle());
+        DiscountItem discountItem = new DiscountItem(book, 0.3);
+        assertEquals(0.3, discountItem.getDiscount());
+        assertEquals("<test> is on sale! 30.0% off", discountItem.getTitle());
     }
 
     @Test

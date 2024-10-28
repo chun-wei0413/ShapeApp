@@ -29,7 +29,6 @@ public class PriceVisitor implements ItemVisitor{
     public void visitDiscountItem(DiscountItem discountItem) {
         discount = (1 - discountItem.getDiscount()) * discount;
         discountItem.getItem().accept(this);
-       
     }
 
     @Override

@@ -43,7 +43,7 @@ public class DiscountItem implements Item{
 
         // if(f){
         //     if(item instanceof Book){
-        //         return "<"+item.getTitle()+">" + " is on sale! " + d + "% off";
+        //         return "<"+item.getTitle()+">" + " is on sale! " + Double.valueOf(d).toString() + "% off";
         //     }
         //     else{
         //         Iterator<Item> it = item.iterator();
@@ -55,7 +55,7 @@ public class DiscountItem implements Item{
         //     }
         // }else {
         //     if(item instanceof Book){
-        //         return "<"+item.getTitle()+">" + " is on sale! " + i + "% off";
+        //         return "<"+item.getTitle()+">" + " is on sale! " + Integer.valueOf(i).toString() + "% off";
         //     }
         //     else{
         //         Iterator<Item> it = item.iterator();
