@@ -4,12 +4,10 @@ import java.util.Iterator;
 
 public class PriceVisitor implements ItemVisitor{
     private double total;
-    private double oldDiscount;
     private double discount;
 
     public PriceVisitor(){
         this.total = 0;
-        this.oldDiscount = 1;
         this.discount = 1;
     }
 
@@ -29,7 +27,7 @@ public class PriceVisitor implements ItemVisitor{
 
     @Override
     public void visitDiscountItem(DiscountItem discountItem) {
-        discount = discountItem.getDiscount() * oldDiscount;
+        discount = (1 - discountItem.getDiscount()) * discount;
         discountItem.getItem().accept(this);
        
     }
