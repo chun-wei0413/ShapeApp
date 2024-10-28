@@ -4,11 +4,9 @@ import java.util.Iterator;
 
 public class PriceVisitor implements ItemVisitor{
     private double total;
-    private double discount;
 
     public PriceVisitor(){
         this.total = 0;
-        this.discount = 1;
     }
 
     @Override
