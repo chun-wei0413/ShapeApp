@@ -34,6 +34,6 @@ public class PriceVisitor implements ItemVisitor{
 
     @Override
     public Object getResult() {
-        return total;
+        return Double.valueOf(total);
     }
 }
