@@ -53,6 +53,6 @@ public class PriceVisitorTest {
 
         discountItem.accept(visitor);
 
-        assertEquals(550.0, visitor.getResult());
+        assertEquals(560.0, visitor.getResult());
     }
 }

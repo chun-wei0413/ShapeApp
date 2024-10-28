@@ -19,7 +19,7 @@ public class DiscountItem implements Item{
     public String getTitle() {
         String s = "";
 
-        if(getDiscount()*100 >= 0) {
+        if((getDiscount()*100) >= 0) {
             int discountInt = (int)getDiscount()*100;
             if(item instanceof Book){
                 return "<"+item.getTitle()+">" + " is on sale! " + discountInt + "% off";
@@ -34,7 +34,6 @@ public class DiscountItem implements Item{
             }
         }  else {
             double discountDouble = getDiscount()*100;
-            int discountInt = (int)getDiscount()*100;
             if(item instanceof Book){
                 return "<"+item.getTitle()+">" + " is on sale! " + discountDouble + "% off";
             }
