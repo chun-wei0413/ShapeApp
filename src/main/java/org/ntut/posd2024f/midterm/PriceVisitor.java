@@ -1,4 +1,41 @@
 package org.ntut.posd2024f.midterm;
 
-public class PriceVisitor {
+import java.util.Iterator;
+
+public class PriceVisitor implements ItemVisitor{
+    private double total;
+    private double oldDiscount;
+    private double discount;
+
+    public PriceVisitor(){
+        this.total = 0;
+        this.oldDiscount = 1;
+        this.discount = 1;
+    }
+
+    @Override
+    public void visitBook(Book book) {
+        total += book.getPrice() * discount;
+    }
+
+    @Override
+    public void visitBundle(Bundle bundle) {
+        Iterator<Item> it = bundle.iterator();
+
+        while(it.hasNext()){
+            it.next().accept(this);
+        }
+    }
+
+    @Override
+    public void visitDiscountItem(DiscountItem discountItem) {
+        discount = discountItem.getDiscount() * oldDiscount;
+        discountItem.getItem().accept(this);
+       
+    }
+
+    @Override
+    public Object getResult() {
+        return total;
+    }
 }

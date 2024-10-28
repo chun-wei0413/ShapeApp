@@ -41,7 +41,6 @@ public class DiscountItem implements Item{
 
     @Override
     public <T> void accept(ItemVisitor<T> visitor) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'accept'");
+        visitor.visitDiscountItem(this);
     }
 }
