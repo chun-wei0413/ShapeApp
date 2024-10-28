@@ -10,7 +10,7 @@ public class Book implements Item{
             throw new IllegalArgumentException("The book should have a title.");
         }
 
-        if(price <= 0) {
+        if(price < 0) {
             throw new IllegalArgumentException("The price should be greater than or equal to 0.");
         }
         this.title = title;

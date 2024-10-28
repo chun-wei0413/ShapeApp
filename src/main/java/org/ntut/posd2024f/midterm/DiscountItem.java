@@ -29,43 +29,6 @@ public class DiscountItem implements Item{
             }
             return s;
         }
-
-        // double d =0;
-        // int i =0;
-        // boolean f = false;
-        // int check = (int)discount * 1000;
-        // if((check % 10) > 0){
-        //     f = true;
-        //     d = discount * 100;
-        // } else {
-        //     i = (int)discount * 100;
-        // }
-
-        // if(f){
-        //     if(item instanceof Book){
-        //         return "<"+item.getTitle()+">" + " is on sale! " + Double.valueOf(d).toString() + "% off";
-        //     }
-        //     else{
-        //         Iterator<Item> it = item.iterator();
-
-        //         while(it.hasNext()){
-        //             s += "<"+ it.next().getTitle()+">" + " is on sale! " + Double.valueOf(d).toString() + "% off\n";
-        //         }
-        //     }
-        // }else {
-        //     if(item instanceof Book){
-        //         return "<"+item.getTitle()+">" + " is on sale! " + Integer.valueOf(i).toString() + "% off";
-        //     }
-        //     else{
-        //         Iterator<Item> it = item.iterator();
-
-        //         while(it.hasNext()){
-        //             s += "<"+ it.next().getTitle()+">" + " is on sale! " + Integer.valueOf(i).toString() + "% off\n";
-        //         }
-        //     }
-        // }
-        // return s;
-
     }
 
     public Item getItem(){
