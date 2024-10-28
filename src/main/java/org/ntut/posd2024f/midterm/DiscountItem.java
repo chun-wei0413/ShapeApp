@@ -25,7 +25,7 @@ public class DiscountItem implements Item{
             Iterator<Item> it = item.iterator();
 
             while(it.hasNext()){
-                s += "<"+item.getTitle()+">" + " is on sale! " + discount*100 + "% off\n";
+                s += "<"+it.next().getTitle()+">" + " is on sale! " + discount*100 + "% off\n";
             }
             return s;
         }
