@@ -25,7 +25,7 @@ public class DiscountItem implements Item{
             Iterator<Item> it = item.iterator();
 
             while(it.hasNext()){
-                s += "<"+it.next().getTitle()+">" + " is on sale! " + discount*100 + "% off\n";
+                s += "<"+ it.next().getTitle()+">" + " is on sale! " + discount*100 + "% off\n";
             }
             return s;
         }
@@ -49,9 +49,8 @@ public class DiscountItem implements Item{
         //         Iterator<Item> it = item.iterator();
 
         //         while(it.hasNext()){
-        //             s += "<"+item.getTitle()+">" + " is on sale! " + d + "% off\n";
+        //             s += "<"+ it.next().getTitle()+">" + " is on sale! " + Double.valueOf(d).toString() + "% off\n";
         //         }
-        //         return s;
         //     }
         // }else {
         //     if(item instanceof Book){
@@ -61,11 +60,11 @@ public class DiscountItem implements Item{
         //         Iterator<Item> it = item.iterator();
 
         //         while(it.hasNext()){
-        //             s += "<"+item.getTitle()+">" + " is on sale! " + i + "% off\n";
+        //             s += "<"+ it.next().getTitle()+">" + " is on sale! " + Integer.valueOf(i).toString() + "% off\n";
         //         }
-        //         return s;
         //     }
         // }
+        // return s;
 
     }
 
