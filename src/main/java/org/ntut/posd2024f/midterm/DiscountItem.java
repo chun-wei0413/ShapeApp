@@ -8,7 +8,7 @@ public class DiscountItem implements Item{
     private double discount;
 
     public DiscountItem(Item item, double discount) {
-        if(discount <= 0 || discount >= 1){
+        if(discount < 0 || discount > 1){
             throw new IllegalArgumentException("The discount should be between 0 and 1.");
         }
         this.item = item;
