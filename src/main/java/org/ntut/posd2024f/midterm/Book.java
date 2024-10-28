@@ -6,7 +6,7 @@ public class Book implements Item{
     private double price;
 
     public Book(String title, double price) {
-        if(title.equals("")){
+        if(title.isEmpty()){
             throw new IllegalArgumentException("The book should have a title.");
         }
 

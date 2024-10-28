@@ -34,7 +34,7 @@ public class DiscountItem implements Item{
         // int i =0;
         // boolean f = false;
         // int check = (int)discount * 1000;
-        // if(check % 10 > 0){
+        // if((check % 10) > 0){
         //     f = true;
         //     d = discount * 100;
         // } else {

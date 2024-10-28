@@ -13,9 +13,8 @@ public interface Item {
         return new NullIterator();
     }
 
-    default Iterator<Item> dfsIterator() {
-        //test
-        return new NullIterator();
+    default Iterator<Item> dfsIterator(Item item) {
+        return new DFSIterator(item);
     }
     
     public <T> void accept(ItemVisitor<T> visitor);

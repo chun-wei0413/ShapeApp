@@ -12,6 +12,9 @@ public class DFSIterator implements Iterator<Item>{
 
     @Override
     public boolean hasNext() {
+        if(item instanceof Book){
+            return true;
+        }
         return item.iterator().hasNext();
     }
 
@@ -23,4 +26,7 @@ public class DFSIterator implements Iterator<Item>{
         return item.iterator().next();
     }
     
+    public void dfs(Item item) {
+        
+    }
 }
