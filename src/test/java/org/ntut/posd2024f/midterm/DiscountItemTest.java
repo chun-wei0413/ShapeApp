@@ -18,14 +18,6 @@ public class DiscountItemTest {
         assertThrows(IllegalArgumentException.class, () -> new DiscountItem(book, -0.1));
     }
 
-    // @Test
-    // public void test_discountitem_gettitle(){
-    //     Book book = new Book("test", 100);
-    //     DiscountItem discountItem = new DiscountItem(book, 0.1);
-
-    //     assertEquals("<test> is on sale! 10% off", discountItem.getTitle());
-    // }
-
     @Test
     public void test_discountitem_getitem(){
         Bundle bundle = new Bundle("bundle");

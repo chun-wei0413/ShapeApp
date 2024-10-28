@@ -18,30 +18,38 @@ public class DiscountItem implements Item{
     @Override
     public String getTitle() {
         String s = "";
+        double d =0;
+        int i =0;
+        boolean f = false;
+        int check = (int)discount * 1000;
+        if(check % 10 > 0){
+            f = true;
+            d = discount * 100;
+        } else {
+            i = (int)discount * 100;
+        }
 
-        if((getDiscount()*100) >= 0) {
-            int discountInt = (int)getDiscount()*100;
+        if(f){
             if(item instanceof Book){
-                return "<"+item.getTitle()+">" + " is on sale! " + discountInt + "% off";
+                return "<"+item.getTitle()+">" + " is on sale! " + d + "% off";
             }
             else{
                 Iterator<Item> it = item.iterator();
-    
+
                 while(it.hasNext()){
-                   s += "<"+item.getTitle()+">" + " is on sale! " + discountInt + "% off\n";
+                    s += "<"+item.getTitle()+">" + " is on sale! " + d + "% off\n";
                 }
                 return s;
             }
-        }  else {
-            double discountDouble = getDiscount()*100;
+        }else {
             if(item instanceof Book){
-                return "<"+item.getTitle()+">" + " is on sale! " + discountDouble + "% off";
+                return "<"+item.getTitle()+">" + " is on sale! " + i + "% off";
             }
             else{
                 Iterator<Item> it = item.iterator();
-    
+
                 while(it.hasNext()){
-                   s += "<"+item.getTitle()+">" + " is on sale! " + discountDouble + "% off\n";
+                    s += "<"+item.getTitle()+">" + " is on sale! " + i + "% off\n";
                 }
                 return s;
             }
@@ -61,4 +69,5 @@ public class DiscountItem implements Item{
     public <T> void accept(ItemVisitor<T> visitor) {
         visitor.visitDiscountItem(this);
     }
+
 }
