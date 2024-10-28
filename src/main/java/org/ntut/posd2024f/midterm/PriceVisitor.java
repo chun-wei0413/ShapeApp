@@ -19,7 +19,6 @@ public class PriceVisitor implements ItemVisitor{
     @Override
     public void visitBundle(Bundle bundle) {
         Iterator<Item> it = bundle.iterator();
-
         while(it.hasNext()){
             it.next().accept(this);
         }
@@ -27,12 +26,13 @@ public class PriceVisitor implements ItemVisitor{
 
     @Override
     public void visitDiscountItem(DiscountItem discountItem) {
-        discount = (1 - discountItem.getDiscount()) * discount;
+        // discount = (1 - discountItem.getDiscount()) * discount;
         discountItem.getItem().accept(this);
+        total *= (1 - discountItem.getDiscount());
     }
 
     @Override
     public Object getResult() {
-        return Double.valueOf(total * discount);
+        return Double.valueOf(total);
     }
 }
