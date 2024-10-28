@@ -18,7 +18,7 @@ public class ItemTest {
     }
 
     @Test
-    public void test_Item_add() {
+    public void test_Item_add_exception() {
         Item b1 = new Book("b1", 100);
         Item b2 = new Book("b2", 100);
 
