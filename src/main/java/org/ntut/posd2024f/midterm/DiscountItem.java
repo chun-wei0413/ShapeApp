@@ -77,6 +77,11 @@ public class DiscountItem implements Item{
     }
 
     @Override
+    public Iterator<Item> iterator(){
+        return item.iterator();
+    }
+
+    @Override
     public <T> void accept(ItemVisitor<T> visitor) {
         visitor.visitDiscountItem(this);
     }

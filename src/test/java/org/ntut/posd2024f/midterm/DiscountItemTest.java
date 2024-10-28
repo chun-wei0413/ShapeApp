@@ -1,7 +1,11 @@
 package org.ntut.posd2024f.midterm;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import java.util.Iterator;
 
 import org.junit.jupiter.api.Test;
 
@@ -36,6 +40,23 @@ public class DiscountItemTest {
         DiscountItem discountItem = new DiscountItem(bundle, 0.1);
 
         assertEquals("bundle" ,discountItem.getItem().getTitle());
+    }
+
+    @Test
+    public void test_discountitem_iterator(){
+        Bundle bundle = new Bundle("bundle");
+        Book b1 = new Book("b1", 100);
+        Book b2 = new Book("b2", 100);
+        bundle.add(b1);
+        bundle.add(b2);
+        DiscountItem discountItem = new DiscountItem(bundle, 0.1);
+        Iterator<Item> it = discountItem.iterator();
+
+        assertTrue(it.hasNext());
+        assertEquals("b1" ,it.next().getTitle());
+        assertTrue(it.hasNext());
+        assertEquals("b2" ,it.next().getTitle());
+        assertFalse(it.hasNext());
     }
 
     @Test
