@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
 public class DFSIteratorTest {
 
     @Test
-    public void testSingleItem() {
+    public void test_single_item() {
         Book book = new Book("Single Book", 50);
         DFSIterator iterator = new DFSIterator(book);
 
@@ -19,7 +19,7 @@ public class DFSIteratorTest {
     }
 
     @Test
-    public void testBundleWithBooks() {
+    public void test_bundle_with_books() {
         Book book1 = new Book("Book 1", 100);
         Book book2 = new Book("Book 2", 150);
         Bundle bundle = new Bundle("Book Bundle");
@@ -38,7 +38,7 @@ public class DFSIteratorTest {
     }
 
     @Test
-    public void testNestedBundles() {
+    public void test_nested_bundles() {
         Book book1 = new Book("Book 1", 100);
         Book book2 = new Book("Book 2", 150);
         Book book3 = new Book("Book 3", 200);

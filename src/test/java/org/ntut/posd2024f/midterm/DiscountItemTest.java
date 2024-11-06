@@ -17,7 +17,7 @@ public class DiscountItemTest {
     }
 
     @Test
-    public void test_nulltitle_discountitem() {
+    public void test_negative_discount_discountitem() {
         Book book = new Book("test", 100);
         assertThrows(IllegalArgumentException.class, () -> new DiscountItem(book, -0.1));
     }

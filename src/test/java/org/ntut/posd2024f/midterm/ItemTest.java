@@ -38,6 +38,7 @@ public class ItemTest {
         assertEquals("b1", it.next().getTitle());
         assertTrue(it.hasNext());
         assertEquals("b2", it.next().getTitle());
+        assertFalse(it.hasNext());
     }
 
     @Test
@@ -49,4 +50,16 @@ public class ItemTest {
         assertThrows(NoSuchElementException.class, () -> it.next());
         
     }
+
+    @Test
+    public void test_Item_dfsIterator() {
+        Item b1 = new Book("b1", 100);
+        Iterator<Item> it = b1.dfsIterator();
+
+        assertTrue(it.hasNext());
+        assertEquals(b1, it.next());
+        assertFalse(it.hasNext());
+        assertThrows(NoSuchElementException.class, () -> it.next());
+        
+    } 
 }

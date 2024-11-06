@@ -14,7 +14,7 @@ public class BookTest {
 
     @Test
     public void test_nulltitle_book() {
-        assertThrows(IllegalArgumentException.class, () -> new Book("", 100));
+        assertThrows(IllegalArgumentException.class, () -> new Book("   ", 100));
 
     }
 
