@@ -3,6 +3,7 @@ package org.ntut.posd2024f.midterm;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 public class DFSIterator implements Iterator<Item> {
     private List<Item> items;
@@ -35,6 +36,10 @@ public class DFSIterator implements Iterator<Item> {
 
     @Override
     public Item next() {
+        if(index >= items.size()){
+            throw new NoSuchElementException("No more element.");
+        }
+
         return items.get(index++);
     }
 }
