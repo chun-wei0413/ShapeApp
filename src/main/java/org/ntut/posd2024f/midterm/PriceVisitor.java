@@ -24,7 +24,6 @@ public class PriceVisitor implements ItemVisitor{
 
     @Override
     public void visitDiscountItem(DiscountItem discountItem) {
-        // discount = (1 - discountItem.getDiscount()) * discount;
         double previousTotal = total; // 保存進入該 DiscountItem 前的總價
         discountItem.getItem().accept(this); // 對內部 item 使用 visitor 計算未折扣金額
         total = previousTotal + (total - previousTotal) * (1 - discountItem.getDiscount()); // 將折扣應用於該層
