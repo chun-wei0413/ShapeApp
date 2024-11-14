@@ -7,7 +7,7 @@ import java.util.Stack;
 public class ShapeBuilder {
 
     private List<Shape> shapes;
-    private Stack<CompoundShape> compoundShapeStack;
+    private Stack<Shape> compoundShapeStack;
 
     public ShapeBuilder() {
         this.shapes = new ArrayList<>();
@@ -49,7 +49,7 @@ public class ShapeBuilder {
 
     public void endBuildCompoundShape() {
         if (!compoundShapeStack.isEmpty()) {
-            CompoundShape finishedCompoundShape = compoundShapeStack.pop();
+            Shape finishedCompoundShape = compoundShapeStack.pop();
             if (compoundShapeStack.isEmpty()) {
                 shapes.add(finishedCompoundShape);
             }
