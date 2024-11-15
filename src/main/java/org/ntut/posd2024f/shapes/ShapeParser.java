@@ -83,7 +83,7 @@ public class ShapeParser {
     private void parseTriangle(String line) {
         Pattern pattern = Pattern.compile("Triangle ((\\[\\d+,\\d+\\] ?){3})(, color=(\\w+))?(, text=(.*))?");
         Matcher matcher = pattern.matcher(line);
-        if (matcher.matches()) {
+        if (matcher.find()) {
             List<TwoDimensionalVector> vectors = parseVectors(matcher.group(1));
             String color = matcher.group(4);
             String text = matcher.group(6);
@@ -96,11 +96,17 @@ public class ShapeParser {
     private void parseConvexPolygon(String line) {
         Pattern pattern = Pattern.compile("ConvexPolygon ((\\[\\d+,\\d+\\] ?)+)(, color=(\\w+))?(, text=(.*))?");
         Matcher matcher = pattern.matcher(line);
-        if (matcher.matches()) {
-            List<TwoDimensionalVector> vectors = parseVectors(matcher.group(1));
+        if (matcher.find()) {
+            String vectorsPart = matcher.group(1);
             String color = matcher.group(4);
             String text = matcher.group(6);
-            builder.buildConvexPolygon(vectors, color, text);
+    
+            try {
+                List<TwoDimensionalVector> vectors = parseVectors(vectorsPart);
+                builder.buildConvexPolygon(vectors, color, text);
+            } catch (IllegalArgumentException e) {
+                throw e;
+            }
         } else {
             throw new IllegalArgumentException("Invalid ConvexPolygon format");
         }
@@ -113,7 +119,7 @@ public class ShapeParser {
             String color = matcher.group(2);
             String text = matcher.group(4);
             builder.beginBuildCompoundShape(color, text);
-
+    
             while (scanner.hasNextLine()) {
                 String subLine = scanner.nextLine().trim();
                 if (subLine.equals("}")) {
@@ -124,13 +130,29 @@ public class ShapeParser {
                 } else if (subLine.startsWith("CompoundShape")) {
                     parseCompoundShape(scanner, subLine);
                 } else if (subLine.startsWith("Circle")) {
-                    parseCircle(subLine);
+                    try {
+                        parseCircle(subLine);
+                    } catch (IllegalArgumentException e) {
+                        throw new IllegalArgumentException("Invalid Circle format in CompoundShape", e);
+                    }
                 } else if (subLine.startsWith("Rectangle")) {
-                    parseRectangle(subLine);
+                    try {
+                        parseRectangle(subLine);
+                    } catch (IllegalArgumentException e) {
+                        throw new IllegalArgumentException("Invalid Rectangle format in CompoundShape", e);
+                    }
                 } else if (subLine.startsWith("Triangle")) {
-                    parseTriangle(subLine);
+                    try {
+                        parseTriangle(subLine);
+                    } catch (IllegalArgumentException e) {
+                        throw new IllegalArgumentException("Invalid Triangle format in CompoundShape", e);
+                    }
                 } else if (subLine.startsWith("ConvexPolygon")) {
-                    parseConvexPolygon(subLine);
+                    try {
+                        parseConvexPolygon(subLine);
+                    } catch (IllegalArgumentException e) {
+                        throw new IllegalArgumentException("Invalid ConvexPolygon format in CompoundShape", e);
+                    }
                 } else {
                     throw new IllegalArgumentException("Unknown shape type in compound shape");
                 }
@@ -139,6 +161,7 @@ public class ShapeParser {
             throw new IllegalArgumentException("Invalid CompoundShape format");
         }
     }
+    
 
     private List<TwoDimensionalVector> parseVectors(String vectorString) {
         List<TwoDimensionalVector> vectors = new ArrayList<>();
