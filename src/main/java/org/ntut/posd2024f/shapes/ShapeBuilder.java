@@ -7,11 +7,11 @@ import java.util.Stack;
 public class ShapeBuilder {
 
     private List<Shape> shapes;
-    private Stack<Shape> compoundShapeStack;
+    private Stack<Shape> stack;
 
     public ShapeBuilder() {
         this.shapes = new ArrayList<>();
-        this.compoundShapeStack = new Stack<>();
+        this.stack = new Stack<>();
     }
 
     public void buildCircle(double radius, String color, String text) {
@@ -41,20 +41,18 @@ public class ShapeBuilder {
     public void beginBuildCompoundShape(String color, String text) {
         CompoundShape compoundShape = new CompoundShape(); 
         Shape decoratedCompoundShape = decorateShape(compoundShape, color, text);
-        if (!compoundShapeStack.isEmpty()) {
-            compoundShapeStack.peek().add(decoratedCompoundShape);
+        if (!stack.isEmpty()) {
+            stack.peek().add(decoratedCompoundShape);
         }
-        compoundShapeStack.push((CompoundShape) decoratedCompoundShape);
+        stack.push(decoratedCompoundShape);
     }
 
     public void endBuildCompoundShape() {
-        if (!compoundShapeStack.isEmpty()) {
-            Shape finishedCompoundShape = compoundShapeStack.pop();
-            if (compoundShapeStack.isEmpty()) {
+        if (!stack.isEmpty()) {
+            Shape finishedCompoundShape = stack.pop();
+            if (stack.isEmpty()) {
                 shapes.add(finishedCompoundShape);
             }
-        } else {
-            throw new IllegalStateException("No compound shape to end.");
         }
     }
 
@@ -74,10 +72,10 @@ public class ShapeBuilder {
 
     // 根據當前的構建上下文添加形狀
     private void addShapeToCurrentContext(Shape shape) {
-        if (compoundShapeStack.isEmpty()) {
+        if (stack.isEmpty()) {
             shapes.add(shape);
         } else {
-            compoundShapeStack.peek().add(shape);
+            stack.peek().add(shape);
         }
     }
 }
