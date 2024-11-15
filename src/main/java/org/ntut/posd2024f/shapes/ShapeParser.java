@@ -39,6 +39,7 @@ public class ShapeParser {
                 } else if (line.startsWith("CompoundShape")) {
                     parseCompoundShape(scanner, line);
                 } else {
+                    //debug用
                     throw new IllegalArgumentException("Unknown shape type");
                 }
             }
@@ -141,19 +142,37 @@ public class ShapeParser {
 
     private List<TwoDimensionalVector> parseVectors(String vectorString) {
         List<TwoDimensionalVector> vectors = new ArrayList<>();
-        Pattern vectorPattern = Pattern.compile("\\[(\\d+),(\\d+)\\]");
-        Matcher matcher = vectorPattern.matcher(vectorString);
-
-        while (matcher.find()) {
-            int x = Integer.parseInt(matcher.group(1));
-            int y = Integer.parseInt(matcher.group(2));
-            vectors.add(new TwoDimensionalVector(x, y));
+        // 將向量按空格分割
+        String[] rawVectors = vectorString.trim().split(" ");
+        
+        for (String rawVector : rawVectors) {
+            if (!rawVector.startsWith("[")) {
+                throw new IllegalArgumentException("Expected token '['");
+            }
+            if (!rawVector.contains(",")) {
+                throw new IllegalArgumentException("Expected token ','");
+            }
+            if (!rawVector.endsWith("]")) {
+                throw new IllegalArgumentException("Expected token ']'");
+            }
+    
+            // 檢查格式後進一步解析向量
+            Pattern vectorPattern = Pattern.compile("\\[(\\d+),(\\d+)\\]");
+            Matcher matcher = vectorPattern.matcher(rawVector);
+            if (matcher.matches()) {
+                int x = Integer.parseInt(matcher.group(1));
+                int y = Integer.parseInt(matcher.group(2));
+                vectors.add(new TwoDimensionalVector(x, y));
+            } else {
+                throw new IllegalArgumentException("Invalid vector format");
+            }
         }
-
+    
         if (vectors.isEmpty()) {
             throw new IllegalArgumentException("Invalid vector format");
         }
-
+    
         return vectors;
     }
+    
 }
