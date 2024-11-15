@@ -116,13 +116,16 @@ public class ShapeParser {
         Pattern pattern = Pattern.compile("CompoundShape(, color=(\\w+))?(, text=(.*))? \\{");
         Matcher matcher = pattern.matcher(line);
         if (matcher.matches()) {
-            String color = matcher.group(2);
-            String text = matcher.group(4);
+            String color = matcher.group(2); 
+            String text = matcher.group(4);  
             builder.beginBuildCompoundShape(color, text);
+    
+            boolean foundRightBrace = false;
     
             while (scanner.hasNextLine()) {
                 String subLine = scanner.nextLine().trim();
                 if (subLine.equals("}")) {
+                    foundRightBrace = true;
                     builder.endBuildCompoundShape();
                     break;
                 } else if (subLine.isEmpty()) {
@@ -130,42 +133,30 @@ public class ShapeParser {
                 } else if (subLine.startsWith("CompoundShape")) {
                     parseCompoundShape(scanner, subLine);
                 } else if (subLine.startsWith("Circle")) {
-                    try {
-                        parseCircle(subLine);
-                    } catch (IllegalArgumentException e) {
-                        throw new IllegalArgumentException("Invalid Circle format in CompoundShape", e);
-                    }
+                    parseCircle(subLine);
                 } else if (subLine.startsWith("Rectangle")) {
-                    try {
-                        parseRectangle(subLine);
-                    } catch (IllegalArgumentException e) {
-                        throw new IllegalArgumentException("Invalid Rectangle format in CompoundShape", e);
-                    }
+                    parseRectangle(subLine);
                 } else if (subLine.startsWith("Triangle")) {
-                    try {
-                        parseTriangle(subLine);
-                    } catch (IllegalArgumentException e) {
-                        throw new IllegalArgumentException("Invalid Triangle format in CompoundShape", e);
-                    }
+                    parseTriangle(subLine);
                 } else if (subLine.startsWith("ConvexPolygon")) {
-                    try {
-                        parseConvexPolygon(subLine);
-                    } catch (IllegalArgumentException e) {
-                        throw new IllegalArgumentException("Invalid ConvexPolygon format in CompoundShape", e);
-                    }
+                    parseConvexPolygon(subLine);
                 } else {
                     throw new IllegalArgumentException("Unknown shape type in compound shape");
                 }
             }
+    
+            if (!foundRightBrace) {
+                throw new IllegalArgumentException("Expected token '}'");
+            }
         } else {
-            throw new IllegalArgumentException("Invalid CompoundShape format");
+            throw new IllegalArgumentException("Expected token '{'");
         }
     }
     
 
     private List<TwoDimensionalVector> parseVectors(String vectorString) {
         List<TwoDimensionalVector> vectors = new ArrayList<>();
-        // 將向量按空格分割
+
         String[] rawVectors = vectorString.trim().split(" ");
         
         for (String rawVector : rawVectors) {
@@ -179,7 +170,6 @@ public class ShapeParser {
                 throw new IllegalArgumentException("Expected token ']'");
             }
     
-            // 檢查格式後進一步解析向量
             Pattern vectorPattern = Pattern.compile("\\[(\\d+),(\\d+)\\]");
             Matcher matcher = vectorPattern.matcher(rawVector);
             if (matcher.matches()) {
