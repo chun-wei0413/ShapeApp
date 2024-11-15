@@ -48,11 +48,9 @@ public class ShapeBuilder {
     }
 
     public void endBuildCompoundShape() {
-        if (!stack.isEmpty()) {
-            Shape finishedCompoundShape = stack.pop();
-            if (stack.isEmpty()) {
-                shapes.add(finishedCompoundShape);
-            }
+        Shape finishedCompoundShape = stack.pop();
+        if (stack.isEmpty()) {
+            shapes.add(finishedCompoundShape);
         }
     }
 
@@ -70,7 +68,6 @@ public class ShapeBuilder {
         return shape;
     }
 
-    // 根據當前的構建上下文添加形狀
     private void addShapeToCurrentContext(Shape shape) {
         if (stack.isEmpty()) {
             shapes.add(shape);
