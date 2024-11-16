@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Scanner;
 
 public class ShapeParser {
-    
     private File file;
     private ShapeBuilder builder;
     private List<Shape> shapes;
@@ -25,22 +24,8 @@ public class ShapeParser {
         try (Scanner sc = new Scanner(file)) {
             while (sc.hasNextLine()) {
                 String line = sc.nextLine().trim();
-
                 if (line.isEmpty()) continue;
-
-                if (line.startsWith("Circle")) {
-                    parseCircle(line);
-                } else if (line.startsWith("Rectangle")) {
-                    parseRectangle(line);
-                } else if (line.startsWith("Triangle")) {
-                    parseTriangle(line);
-                } else if (line.startsWith("ConvexPolygon")) {
-                    parseConvexPolygon(line);
-                } else if (line.startsWith("CompoundShape")) {
-                    parseCompoundShape(sc, line);
-                } else {
-                    throw new IllegalArgumentException("Unknown shape type");
-                }
+                parseLine(sc, line);
             }
             shapes = builder.getResult();
         } catch (FileNotFoundException e) {
@@ -52,129 +37,83 @@ public class ShapeParser {
         return shapes;
     }
 
-    private void parseCircle(String line) {
-        String[] parts = line.split(",", 2);
-        double radius = Double.parseDouble(parts[0].split(" ")[1].trim());
-
-        String color = null;
-        String text = null;
-
-        if (parts.length > 1) {
-            String additionalInfo = parts[1].trim();
-            if (additionalInfo.startsWith("color=")) {
-                color = additionalInfo.split("=")[1].trim();
-            }
-            if (additionalInfo.startsWith("text=")) {
-                text = additionalInfo.split("=")[1].trim();
-            }
+    private void parseLine(Scanner sc, String line) {
+        if (line.startsWith("Circle")) {
+            parseCircle(line);
+        } else if (line.startsWith("Rectangle")) {
+            parseRectangle(line);
+        } else if (line.startsWith("Triangle")) {
+            parseTriangle(line);
+        } else if (line.startsWith("ConvexPolygon")) {
+            parseConvexPolygon(line);
+        } else if (line.startsWith("CompoundShape")) {
+            parseCompoundShape(sc, line);
+        } else {
+            throw new IllegalArgumentException("Unknown shape type");
         }
+    }
 
-        builder.buildCircle(radius, color, text);
+    private void parseCircle(String line) {
+        String[] parts = line.split(", ");
+        double radius = Double.parseDouble(parts[0].split(" ")[1].trim());
+        
+        DecoratorInfo decorInfo = parseDecoratorInfo(parts);
+        builder.buildCircle(radius, decorInfo.color, decorInfo.text);
     }
 
     private void parseRectangle(String line) {
-        String[] parts = line.split(",", 2);
+        String[] parts = line.split(", ");
         String[] dimensions = parts[0].split(" ");
         double length = Double.parseDouble(dimensions[1].trim());
         double width = Double.parseDouble(dimensions[2].trim());
-
-        String color = null;
-        String text = null;
-
-        if (parts.length > 1) {
-            String additionalInfo = parts[1].trim();
-            if (additionalInfo.startsWith("color=")) {
-                color = additionalInfo.split("=")[1].trim();
-            }
-            if (additionalInfo.startsWith("text=")) {
-                text = additionalInfo.split("=")[1].trim();
-            }
-        }
-
-        builder.buildRectangle(length, width, color, text);
+        
+        DecoratorInfo decorInfo = parseDecoratorInfo(parts);
+        builder.buildRectangle(length, width, decorInfo.color, decorInfo.text);
     }
 
     private void parseTriangle(String line) {
-        String[] parts = line.split(",", 2);
+        String[] parts = line.split(", ");
         String vectorString = parts[0].split(" ", 2)[1].trim();
         List<TwoDimensionalVector> vectors = parseVectors(vectorString);
-
-        String color = null;
-        String text = null;
-
-        if (parts.length > 1) {
-            String additionalInfo = parts[1].trim();
-            if (additionalInfo.startsWith("color=")) {
-                color = additionalInfo.split("=")[1].trim();
-            }
-            if (additionalInfo.startsWith("text=")) {
-                text = additionalInfo.split("=")[1].trim();
-            }
-        }
-
-        builder.buildTriangle(vectors, color, text);
+        
+        DecoratorInfo decorInfo = parseDecoratorInfo(parts);
+        builder.buildTriangle(vectors, decorInfo.color, decorInfo.text);
     }
 
     private void parseConvexPolygon(String line) {
-        String[] parts = line.split(",", 2);
+        String[] parts = line.split(", ");
         String vectorString = parts[0].split(" ", 2)[1].trim();
         List<TwoDimensionalVector> vectors = parseVectors(vectorString);
-
-        String color = null;
-        String text = null;
-
-        if (parts.length > 1) {
-            String additionalInfo = parts[1].trim();
-            if (additionalInfo.startsWith("color=")) {
-                color = additionalInfo.split("=")[1].trim();
-            }
-            if (additionalInfo.startsWith("text=")) {
-                text = additionalInfo.split("=")[1].trim();
-            }
-        }
-        builder.buildConvexPolygon(vectors, color, text);
+        
+        DecoratorInfo decorInfo = parseDecoratorInfo(parts);
+        builder.buildConvexPolygon(vectors, decorInfo.color, decorInfo.text);
     }
 
     private void parseCompoundShape(Scanner sc, String line) {
+        String[] parts = line.split(", ");
+        DecoratorInfo decorInfo = parseDecoratorInfo(parts);
 
-        String color = null;
-        String text = null;
-
-        String[] parts = line.split(",", 2);
-        if (parts.length > 1) {
-            String additionalInfo = parts[1].trim();
-            if (additionalInfo.startsWith("color=")) {
-                color = additionalInfo.split("=")[1].trim();
-            }
-            if (additionalInfo.startsWith("text=")) {
-                text = additionalInfo.split("=")[1].trim();
-            }
-        }
-
-        if (!sc.hasNextLine() || !sc.nextLine().trim().equals("{")) {
+        String nextLine = sc.hasNextLine() ? sc.nextLine().trim() : "";
+        if (!nextLine.equals("{")) {
             throw new IllegalArgumentException("Expected token '{'");
         }
 
-        builder.beginBuildCompoundShape(color, text);
+        builder.beginBuildCompoundShape(decorInfo.color, decorInfo.text);
 
+        boolean foundClosingBrace = false;
         while (sc.hasNextLine()) {
-            String lineInside = sc.nextLine().trim();
-
-            if (lineInside.equals("}")) {
+            String currentLine = sc.nextLine().trim();
+            if (currentLine.equals("}")) {
+                foundClosingBrace = true;
                 break;
             }
-
-            if (lineInside.startsWith("Circle")) {
-                parseCircle(lineInside);
-            } else if (lineInside.startsWith("Rectangle")) {
-                parseRectangle(lineInside);
-            } else if (lineInside.startsWith("Triangle")) {
-                parseTriangle(lineInside);
-            } else if (lineInside.startsWith("ConvexPolygon")) {
-                parseConvexPolygon(lineInside);
-            } else if (lineInside.startsWith("CompoundShape")) {
-                parseCompoundShape(sc, lineInside);
+            if (!currentLine.isEmpty()) {
+                parseLine(sc, currentLine);
             }
+        }
+
+        if (!foundClosingBrace) {
+            throw new IllegalArgumentException("Expected token '}'");
         }
 
         builder.endBuildCompoundShape();
@@ -182,28 +121,52 @@ public class ShapeParser {
 
     private List<TwoDimensionalVector> parseVectors(String vectorString) {
         List<TwoDimensionalVector> vectors = new ArrayList<>();
-        String[] rawVectors = vectorString.split(" ");
-
+        String[] rawVectors = vectorString.split("\\] \\[");
+        
         for (String rawVector : rawVectors) {
-            if (!rawVector.startsWith("[") || !rawVector.contains(",") || !rawVector.endsWith("]")) {
-                if (!rawVector.startsWith("[")) {
-                    throw new IllegalArgumentException("Expected token '['");
-                }
-                if (!rawVector.contains(",")) {
-                    throw new IllegalArgumentException("Expected token ','");
-                }
-                if (!rawVector.endsWith("]")) {
-                    throw new IllegalArgumentException("Expected token ']'");
-                }
+            rawVector = rawVector.replaceAll("\\[|\\]", "").trim();
+            
+            if (!vectorString.startsWith("[")) {
+                throw new IllegalArgumentException("Expected token '['");
             }
-
-            rawVector = rawVector.substring(1, rawVector.length() - 1);  // Remove brackets
+            if (!rawVector.contains(",")) {
+                throw new IllegalArgumentException("Expected token ','");
+            }
+            if (!vectorString.endsWith("]")) {
+                throw new IllegalArgumentException("Expected token ']'");
+            }
+            
             String[] coordinates = rawVector.split(",");
             int x = Integer.parseInt(coordinates[0].trim());
             int y = Integer.parseInt(coordinates[1].trim());
             vectors.add(new TwoDimensionalVector(x, y));
         }
-
+        
         return vectors;
+    }
+
+    private static class DecoratorInfo {
+        String color;
+        String text;
+        
+        DecoratorInfo() {
+            this.color = null;
+            this.text = null;
+        }
+    }
+
+    private DecoratorInfo parseDecoratorInfo(String[] parts) {
+        DecoratorInfo info = new DecoratorInfo();
+        
+        for (int i = 1; i < parts.length; i++) {
+            String part = parts[i].trim();
+            if (part.startsWith("color=")) {
+                info.color = part.substring(6).trim();
+            } else if (part.startsWith("text=")) {
+                info.text = part.substring(5).trim();
+            }
+        }
+        
+        return info;
     }
 }
