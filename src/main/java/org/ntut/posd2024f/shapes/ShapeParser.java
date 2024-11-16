@@ -90,44 +90,41 @@ public class ShapeParser {
     }
 
     private void parseCompoundShape(Scanner sc, String line) {
-        String[] parts = line.split(", ");
+        String cleanLine = line.replace("{", "").trim();
+        String[] parts = cleanLine.split(", ");
         DecoratorInfo decorInfo = parseDecoratorInfo(parts);
     
-        String openingBrace = null;
+        boolean foundOpenBrace = line.trim().endsWith("{");
         
-        if (line.trim().endsWith("{")) {
-            openingBrace = "{";
-        } else {
-            while (sc.hasNextLine()) {
-                String nextLine = sc.nextLine().trim();
-                if (nextLine.isEmpty()) continue;
-                if (nextLine.equals("{")) {
-                    openingBrace = "{";
-                    break;
-                } else {
-                    throw new IllegalArgumentException("Expected token '{'");
-                }
+        if (!foundOpenBrace) {
+            if (!sc.hasNextLine()) {
+                throw new IllegalArgumentException("Expected token '{'");
             }
-        }
-
-        if (openingBrace == null) {
-            throw new IllegalArgumentException("Expected token '{'");
+            String nextLine = sc.nextLine().trim();
+            if (!nextLine.equals("{")) {
+                throw new IllegalArgumentException("Expected token '{'");
+            }
         }
     
         builder.beginBuildCompoundShape(decorInfo.color, decorInfo.text);
     
-
+        boolean foundClosingBrace = false;
         while (sc.hasNextLine()) {
             String currentLine = sc.nextLine().trim();
             if (currentLine.isEmpty()) continue;
+            
             if (currentLine.equals("}")) {
-                builder.endBuildCompoundShape();
-                return;
+                foundClosingBrace = true;
+                break;
             }
             parseLine(sc, currentLine);
         }
     
-        throw new IllegalArgumentException("Expected token '}'");
+        if (!foundClosingBrace) {
+            throw new IllegalArgumentException("Expected token '}'");
+        }
+        
+        builder.endBuildCompoundShape();
     }
 
     private List<TwoDimensionalVector> parseVectors(String vectorString) {
@@ -179,9 +176,13 @@ public class ShapeParser {
         for (int i = 1; i < parts.length; i++) {
             String part = parts[i].trim();
             if (part.startsWith("color=")) {
-                info.color = part.substring(6).trim();
+                // 移除任何可能的大括號
+                String color = part.substring(6).trim().replace("{", "").trim();
+                info.color = color;
             } else if (part.startsWith("text=")) {
-                info.text = part.substring(5).trim();
+                // 移除任何可能的大括號
+                String text = part.substring(5).trim().replace("{", "").trim();
+                info.text = text;
             }
         }
         
