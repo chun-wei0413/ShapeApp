@@ -5,14 +5,13 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class ShapeParser {
+    
     private File file;
     private ShapeBuilder builder;
     private List<Shape> shapes;
-
+    
     public ShapeParser(File file) {
         if (!file.exists()) {
             throw new RuntimeException("File not found");
@@ -23,11 +22,12 @@ public class ShapeParser {
     }
 
     public void parse() {
-        try (Scanner scanner = new Scanner(file)) {
-            while (scanner.hasNextLine()) {
-                String line = scanner.nextLine().trim();
+        try (Scanner sc = new Scanner(file)) {
+            while (sc.hasNextLine()) {
+                String line = sc.nextLine().trim();
+
                 if (line.isEmpty()) continue;
-                
+
                 if (line.startsWith("Circle")) {
                     parseCircle(line);
                 } else if (line.startsWith("Rectangle")) {
@@ -37,9 +37,8 @@ public class ShapeParser {
                 } else if (line.startsWith("ConvexPolygon")) {
                     parseConvexPolygon(line);
                 } else if (line.startsWith("CompoundShape")) {
-                    parseCompoundShape(scanner, line);
+                    parseCompoundShape(sc, line);
                 } else {
-                    //debug用
                     throw new IllegalArgumentException("Unknown shape type");
                 }
             }
@@ -54,138 +53,157 @@ public class ShapeParser {
     }
 
     private void parseCircle(String line) {
-        Pattern pattern = Pattern.compile("Circle (\\d+\\.\\d+)(, color=(\\w+))?(, text=(.*))?");
-        Matcher matcher = pattern.matcher(line);
-        if (matcher.matches()) {
-            double radius = Double.parseDouble(matcher.group(1));
-            String color = matcher.group(3);
-            String text = matcher.group(5);
-            builder.buildCircle(radius, color, text);
-        } else {
-            throw new IllegalArgumentException("Invalid Circle format");
+        String[] parts = line.split(",", 2);
+        double radius = Double.parseDouble(parts[0].split(" ")[1].trim());
+
+        String color = null;
+        String text = null;
+
+        if (parts.length > 1) {
+            String additionalInfo = parts[1].trim();
+            if (additionalInfo.startsWith("color=")) {
+                color = additionalInfo.split("=")[1].trim();
+            }
+            if (additionalInfo.startsWith("text=")) {
+                text = additionalInfo.split("=")[1].trim();
+            }
         }
+
+        builder.buildCircle(radius, color, text);
     }
 
     private void parseRectangle(String line) {
-        Pattern pattern = Pattern.compile("Rectangle (\\d+\\.\\d+) (\\d+\\.\\d+)(, color=(\\w+))?(, text=(.*))?");
-        Matcher matcher = pattern.matcher(line);
-        if (matcher.matches()) {
-            double length = Double.parseDouble(matcher.group(1));
-            double width = Double.parseDouble(matcher.group(2));
-            String color = matcher.group(4);
-            String text = matcher.group(6);
-            builder.buildRectangle(length, width, color, text);
-        } else {
-            throw new IllegalArgumentException("Invalid Rectangle format");
+        String[] parts = line.split(",", 2);
+        String[] dimensions = parts[0].split(" ");
+        double length = Double.parseDouble(dimensions[1].trim());
+        double width = Double.parseDouble(dimensions[2].trim());
+
+        String color = null;
+        String text = null;
+
+        if (parts.length > 1) {
+            String additionalInfo = parts[1].trim();
+            if (additionalInfo.startsWith("color=")) {
+                color = additionalInfo.split("=")[1].trim();
+            }
+            if (additionalInfo.startsWith("text=")) {
+                text = additionalInfo.split("=")[1].trim();
+            }
         }
+
+        builder.buildRectangle(length, width, color, text);
     }
 
     private void parseTriangle(String line) {
-        Pattern pattern = Pattern.compile("Triangle ((\\[\\d+,\\d+\\] ?){3})(, color=(\\w+))?(, text=(.*))?");
-        Matcher matcher = pattern.matcher(line);
-        if (matcher.find()) {
-            List<TwoDimensionalVector> vectors = parseVectors(matcher.group(1));
-            String color = matcher.group(4);
-            String text = matcher.group(6);
-            builder.buildTriangle(vectors, color, text);
-        } else {
-            throw new IllegalArgumentException("Invalid Triangle format");
+        String[] parts = line.split(",", 2);
+        String vectorString = parts[0].split(" ", 2)[1].trim();
+        List<TwoDimensionalVector> vectors = parseVectors(vectorString);
+
+        String color = null;
+        String text = null;
+
+        if (parts.length > 1) {
+            String additionalInfo = parts[1].trim();
+            if (additionalInfo.startsWith("color=")) {
+                color = additionalInfo.split("=")[1].trim();
+            }
+            if (additionalInfo.startsWith("text=")) {
+                text = additionalInfo.split("=")[1].trim();
+            }
         }
+
+        builder.buildTriangle(vectors, color, text);
     }
 
     private void parseConvexPolygon(String line) {
-        Pattern pattern = Pattern.compile("ConvexPolygon ((\\[\\d+,\\d+\\] ?)+)(, color=(\\w+))?(, text=(.*))?");
-        Matcher matcher = pattern.matcher(line);
-        if (matcher.find()) {
-            String vectorsPart = matcher.group(1);
-            String color = matcher.group(4);
-            String text = matcher.group(6);
-    
-            try {
-                List<TwoDimensionalVector> vectors = parseVectors(vectorsPart);
-                builder.buildConvexPolygon(vectors, color, text);
-            } catch (IllegalArgumentException e) {
-                throw e;
+        String[] parts = line.split(",", 2);
+        String vectorString = parts[0].split(" ", 2)[1].trim();
+        List<TwoDimensionalVector> vectors = parseVectors(vectorString);
+
+        String color = null;
+        String text = null;
+
+        if (parts.length > 1) {
+            String additionalInfo = parts[1].trim();
+            if (additionalInfo.startsWith("color=")) {
+                color = additionalInfo.split("=")[1].trim();
             }
-        } else {
-            throw new IllegalArgumentException("Invalid ConvexPolygon format");
+            if (additionalInfo.startsWith("text=")) {
+                text = additionalInfo.split("=")[1].trim();
+            }
         }
+        builder.buildConvexPolygon(vectors, color, text);
     }
 
-    private void parseCompoundShape(Scanner scanner, String line) {
-        Pattern pattern = Pattern.compile("CompoundShape(, color=(\\w+))?(, text=(.*))? \\{");
-        Matcher matcher = pattern.matcher(line);
-        if (matcher.matches()) {
-            String color = matcher.group(2); 
-            String text = matcher.group(4);  
-            builder.beginBuildCompoundShape(color, text);
-    
-            boolean foundRightBrace = false;
-    
-            while (scanner.hasNextLine()) {
-                String subLine = scanner.nextLine().trim();
-                if (subLine.equals("}")) {
-                    foundRightBrace = true;
-                    builder.endBuildCompoundShape();
-                    break;
-                } else if (subLine.isEmpty()) {
-                    continue;
-                } else if (subLine.startsWith("CompoundShape")) {
-                    parseCompoundShape(scanner, subLine);
-                } else if (subLine.startsWith("Circle")) {
-                    parseCircle(subLine);
-                } else if (subLine.startsWith("Rectangle")) {
-                    parseRectangle(subLine);
-                } else if (subLine.startsWith("Triangle")) {
-                    parseTriangle(subLine);
-                } else if (subLine.startsWith("ConvexPolygon")) {
-                    parseConvexPolygon(subLine);
-                } else {
-                    throw new IllegalArgumentException("Unknown shape type in compound shape");
-                }
+    private void parseCompoundShape(Scanner sc, String line) {
+
+        String color = null;
+        String text = null;
+
+        String[] parts = line.split(",", 2);
+        if (parts.length > 1) {
+            String additionalInfo = parts[1].trim();
+            if (additionalInfo.startsWith("color=")) {
+                color = additionalInfo.split("=")[1].trim();
             }
-    
-            if (!foundRightBrace) {
-                throw new IllegalArgumentException("Expected token '}'");
+            if (additionalInfo.startsWith("text=")) {
+                text = additionalInfo.split("=")[1].trim();
             }
-        } else {
+        }
+
+        if (!sc.hasNextLine() || !sc.nextLine().trim().equals("{")) {
             throw new IllegalArgumentException("Expected token '{'");
         }
+
+        builder.beginBuildCompoundShape(color, text);
+
+        while (sc.hasNextLine()) {
+            String lineInside = sc.nextLine().trim();
+
+            if (lineInside.equals("}")) {
+                break;
+            }
+
+            if (lineInside.startsWith("Circle")) {
+                parseCircle(lineInside);
+            } else if (lineInside.startsWith("Rectangle")) {
+                parseRectangle(lineInside);
+            } else if (lineInside.startsWith("Triangle")) {
+                parseTriangle(lineInside);
+            } else if (lineInside.startsWith("ConvexPolygon")) {
+                parseConvexPolygon(lineInside);
+            } else if (lineInside.startsWith("CompoundShape")) {
+                parseCompoundShape(sc, lineInside);
+            }
+        }
+
+        builder.endBuildCompoundShape();
     }
-    
 
     private List<TwoDimensionalVector> parseVectors(String vectorString) {
         List<TwoDimensionalVector> vectors = new ArrayList<>();
+        String[] rawVectors = vectorString.split(" ");
 
-        String[] rawVectors = vectorString.trim().split(" ");
-        
         for (String rawVector : rawVectors) {
-            if (!rawVector.startsWith("[")) {
-                throw new IllegalArgumentException("Expected token '['");
+            if (!rawVector.startsWith("[") || !rawVector.contains(",") || !rawVector.endsWith("]")) {
+                if (!rawVector.startsWith("[")) {
+                    throw new IllegalArgumentException("Expected token '['");
+                }
+                if (!rawVector.contains(",")) {
+                    throw new IllegalArgumentException("Expected token ','");
+                }
+                if (!rawVector.endsWith("]")) {
+                    throw new IllegalArgumentException("Expected token ']'");
+                }
             }
-            if (!rawVector.contains(",")) {
-                throw new IllegalArgumentException("Expected token ','");
-            }
-            if (!rawVector.endsWith("]")) {
-                throw new IllegalArgumentException("Expected token ']'");
-            }
-    
-            Pattern vectorPattern = Pattern.compile("\\[(\\d+),(\\d+)\\]");
-            Matcher matcher = vectorPattern.matcher(rawVector);
-            if (matcher.matches()) {
-                int x = Integer.parseInt(matcher.group(1));
-                int y = Integer.parseInt(matcher.group(2));
-                vectors.add(new TwoDimensionalVector(x, y));
-            } else {
-                throw new IllegalArgumentException("Invalid vector format");
-            }
+
+            rawVector = rawVector.substring(1, rawVector.length() - 1);  // Remove brackets
+            String[] coordinates = rawVector.split(",");
+            int x = Integer.parseInt(coordinates[0].trim());
+            int y = Integer.parseInt(coordinates[1].trim());
+            vectors.add(new TwoDimensionalVector(x, y));
         }
-    
-        if (vectors.isEmpty()) {
-            throw new IllegalArgumentException("Invalid vector format");
-        }
-    
+
         return vectors;
     }
-    
 }
