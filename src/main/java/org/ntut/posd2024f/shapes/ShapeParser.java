@@ -93,13 +93,24 @@ public class ShapeParser {
         String[] parts = line.split(", ");
         DecoratorInfo decorInfo = parseDecoratorInfo(parts);
 
+        // Check if the line itself contains the opening brace
+        if (parts[0].trim().endsWith("{")) {
+            builder.beginBuildCompoundShape(decorInfo.color, decorInfo.text);
+            parseCompoundShapeContent(sc);
+            return;
+        }
+
+        // If not, check the next line
         String nextLine = sc.hasNextLine() ? sc.nextLine().trim() : "";
         if (!nextLine.equals("{")) {
             throw new IllegalArgumentException("Expected token '{'");
         }
 
         builder.beginBuildCompoundShape(decorInfo.color, decorInfo.text);
+        parseCompoundShapeContent(sc);
+    }
 
+    private void parseCompoundShapeContent(Scanner sc) {
         boolean foundClosingBrace = false;
         while (sc.hasNextLine()) {
             String currentLine = sc.nextLine().trim();
@@ -121,25 +132,32 @@ public class ShapeParser {
 
     private List<TwoDimensionalVector> parseVectors(String vectorString) {
         List<TwoDimensionalVector> vectors = new ArrayList<>();
-        String[] rawVectors = vectorString.split("\\] \\[");
+        String[] rawVectors = vectorString.trim().split("\\s+");
         
         for (String rawVector : rawVectors) {
-            rawVector = rawVector.replaceAll("\\[|\\]", "").trim();
-            
-            if (!vectorString.startsWith("[")) {
+            if (!rawVector.startsWith("[")) {
                 throw new IllegalArgumentException("Expected token '['");
             }
             if (!rawVector.contains(",")) {
                 throw new IllegalArgumentException("Expected token ','");
             }
-            if (!vectorString.endsWith("]")) {
+            if (!rawVector.endsWith("]")) {
                 throw new IllegalArgumentException("Expected token ']'");
             }
             
-            String[] coordinates = rawVector.split(",");
-            int x = Integer.parseInt(coordinates[0].trim());
-            int y = Integer.parseInt(coordinates[1].trim());
-            vectors.add(new TwoDimensionalVector(x, y));
+            String vectorContent = rawVector.substring(1, rawVector.length() - 1);
+            String[] coordinates = vectorContent.split(",");
+            if (coordinates.length != 2) {
+                throw new IllegalArgumentException("Invalid vector format");
+            }
+            
+            try {
+                int x = Integer.parseInt(coordinates[0].trim());
+                int y = Integer.parseInt(coordinates[1].trim());
+                vectors.add(new TwoDimensionalVector(x, y));
+            } catch (NumberFormatException e) {
+                throw new IllegalArgumentException("Invalid number format");
+            }
         }
         
         return vectors;
