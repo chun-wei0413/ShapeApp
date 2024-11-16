@@ -92,16 +92,17 @@ public class ShapeParser {
     private void parseCompoundShape(Scanner sc, String line) {
         String[] parts;
         boolean hasOpenBrace = line.contains("{");
+        String remainingLine = "";
         
         if (hasOpenBrace) {
             String[] splitAtBrace = line.split("\\{", 2);
             parts = splitAtBrace[0].trim().split(", ");
+            remainingLine = splitAtBrace.length > 1 ? splitAtBrace[1].trim() : "";
         } else {
             parts = line.split(", ");
         }
     
         DecoratorInfo decorInfo = parseDecoratorInfo(parts);
-        
         builder.beginBuildCompoundShape(decorInfo.color, decorInfo.text);
     
         if (!hasOpenBrace) {
@@ -111,6 +112,15 @@ public class ShapeParser {
             String nextLine = sc.nextLine().trim();
             if (!nextLine.equals("{")) {
                 throw new IllegalArgumentException("Expected token '{'");
+            }
+        }
+    
+        if (!remainingLine.isEmpty()) {
+            if (remainingLine.equals("}")) {
+                builder.endBuildCompoundShape();
+                return;
+            } else if (!remainingLine.isEmpty()) {
+                parseLine(sc, remainingLine);
             }
         }
     
