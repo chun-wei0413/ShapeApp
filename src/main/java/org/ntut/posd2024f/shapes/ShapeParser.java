@@ -12,24 +12,29 @@ public class ShapeParser {
     private List<Shape> shapes;
     
     public ShapeParser(File file) {
-        if (!file.exists()) {
-            throw new RuntimeException("File not found");
-        }
+        validateFile(file);
         this.file = file;
         this.builder = new ShapeBuilder();
         this.shapes = new ArrayList<>();
+    }
+
+    private void validateFile(File file) {
+        if (!file.exists()) {
+            throw new RuntimeException("File not found");
+        }
     }
 
     public void parse() {
         try (Scanner sc = new Scanner(file)) {
             while (sc.hasNextLine()) {
                 String line = sc.nextLine().trim();
-                if (line.isEmpty()) continue;
-                parseLine(sc, line);
+                if (!line.isEmpty()) {
+                    parseLine(sc, line);
+                }
             }
             shapes = builder.getResult();
         } catch (FileNotFoundException e) {
-            throw new RuntimeException("File not found", e);
+            throw new RuntimeException("File not found");
         }
     }
 
@@ -38,19 +43,36 @@ public class ShapeParser {
     }
 
     private void parseLine(Scanner sc, String line) {
-        if (line.startsWith("Circle")) {
-            parseCircle(line);
-        } else if (line.startsWith("Rectangle")) {
-            parseRectangle(line);
-        } else if (line.startsWith("Triangle")) {
-            parseTriangle(line);
-        } else if (line.startsWith("ConvexPolygon")) {
-            parseConvexPolygon(line);
-        } else if (line.startsWith("CompoundShape")) {
-            parseCompoundShape(sc, line);
-        } else {
-            throw new IllegalArgumentException("Unknown shape type");
+        ShapeType shapeType = determineShapeType(line);
+        switch (shapeType) {
+            case CIRCLE:
+                parseCircle(line);
+                break;
+            case RECTANGLE:
+                parseRectangle(line);
+                break;
+            case TRIANGLE:
+                parseTriangle(line);
+                break;
+            case CONVEX_POLYGON:
+                parseConvexPolygon(line);
+                break;
+            case COMPOUND_SHAPE:
+                parseCompoundShape(sc, line);
+                break;
+            default:
+                throw new IllegalArgumentException("Unknown shape type");
         }
+    }
+
+    private ShapeType determineShapeType(String line) {
+        if (line.startsWith("Circle")) return ShapeType.CIRCLE;
+        if (line.startsWith("Rectangle")) return ShapeType.RECTANGLE;
+        if (line.startsWith("Triangle")) return ShapeType.TRIANGLE;
+        if (line.startsWith("ConvexPolygon")) return ShapeType.CONVEX_POLYGON;
+        if (line.startsWith("CompoundShape")) return ShapeType.COMPOUND_SHAPE;
+        //這個我用來debugㄉ
+        throw new IllegalArgumentException("Unknown shape type");
     }
 
     private void parseCircle(String line) {
@@ -150,29 +172,8 @@ public class ShapeParser {
         String[] rawVectors = vectorString.trim().split("\\s+");
         
         for (String rawVector : rawVectors) {
-            if (!rawVector.startsWith("[")) {
-                throw new IllegalArgumentException("Expected token '['");
-            }
-            if (!rawVector.contains(",")) {
-                throw new IllegalArgumentException("Expected token ','");
-            }
-            if (!rawVector.endsWith("]")) {
-                throw new IllegalArgumentException("Expected token ']'");
-            }
-            
-            String vectorContent = rawVector.substring(1, rawVector.length() - 1);
-            String[] coordinates = vectorContent.split(",");
-            if (coordinates.length != 2) {
-                throw new IllegalArgumentException("Invalid vector format");
-            }
-            
-            try {
-                int x = Integer.parseInt(coordinates[0].trim());
-                int y = Integer.parseInt(coordinates[1].trim());
-                vectors.add(new TwoDimensionalVector(x, y));
-            } catch (NumberFormatException e) {
-                throw new IllegalArgumentException("Invalid number format");
-            }
+            validateVectorFormat(rawVector);
+            vectors.add(convertToVector(rawVector));
         }
         
         return vectors;
@@ -188,22 +189,45 @@ public class ShapeParser {
         }
     }
 
+    private void validateVectorFormat(String rawVector) {
+        if (!rawVector.startsWith("[")) {
+            throw new IllegalArgumentException("Expected token '['");
+        }
+        if (!rawVector.contains(",")) {
+            throw new IllegalArgumentException("Expected token ','");
+        }
+        if (!rawVector.endsWith("]")) {
+            throw new IllegalArgumentException("Expected token ']'");
+        }
+    }
+
+    private TwoDimensionalVector convertToVector(String rawVector) {
+        String vectorContent = rawVector.substring(1, rawVector.length() - 1);
+        String[] coordinates = vectorContent.split(",");
+        int x = Integer.parseInt(coordinates[0].trim());
+        int y = Integer.parseInt(coordinates[1].trim());
+
+        return new TwoDimensionalVector(x, y);
+    }
+
     private DecoratorInfo parseDecoratorInfo(String[] parts) {
         DecoratorInfo info = new DecoratorInfo();
         
         for (int i = 1; i < parts.length; i++) {
             String part = parts[i].trim();
             if (part.startsWith("color=")) {
-                // 移除任何可能的大括號
                 String color = part.substring(6).trim().replace("{", "").trim();
                 info.color = color;
             } else if (part.startsWith("text=")) {
-                // 移除任何可能的大括號
                 String text = part.substring(5).trim().replace("{", "").trim();
                 info.text = text;
             }
         }
         
         return info;
+    }
+
+    private enum ShapeType {
+        CIRCLE, RECTANGLE, TRIANGLE, CONVEX_POLYGON, COMPOUND_SHAPE
     }
 }
