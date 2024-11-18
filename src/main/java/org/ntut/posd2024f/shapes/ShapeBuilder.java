@@ -41,9 +41,6 @@ public class ShapeBuilder {
     public void beginBuildCompoundShape(String color, String text) {
         CompoundShape compoundShape = new CompoundShape(); 
         Shape decoratedCompoundShape = decorateShape(compoundShape, color, text);
-        if (!stack.isEmpty()) {
-            stack.peek().add(decoratedCompoundShape);
-        }
         stack.push(decoratedCompoundShape);
     }
 
@@ -51,6 +48,8 @@ public class ShapeBuilder {
         Shape finishedCompoundShape = stack.pop();
         if (stack.isEmpty()) {
             shapes.add(finishedCompoundShape);
+        } else {
+            stack.peek().add(finishedCompoundShape);
         }
     }
 
